@@ -1,0 +1,1045 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="ru"><head class="push_notifier_supported">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<link rel="shortcut icon" href="https://vk.com/images/icons/favicons/fav_logo.ico?6">
+
+<link rel="apple-touch-icon" href="https://vk.com/images/icons/pwa/apple/default.png?8">
+
+<meta http-equiv="content-type" content="text/html; charset=windows-1251">
+
+
+<title>Редактирование приложения - Статистика лучших постов</title>
+
+<noscript><meta http-equiv="refresh" content="0; URL=/badbrowser.php"></noscript>
+
+<link type="text/css" rel="stylesheet" href="API_%D0%A0%D0%B5%D0%B4%D0%B0%D0%BA%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%BF%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F%20-%20%D0%A1%D1%82%D0%B0%D1%82%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0%20%D0%BB%D1%83%D1%87%D1%88%D0%B8%D1%85%20%D0%BF%D0%BE%D1%81%D1%82%D0%BE%D0%B2_files/common.css"><link type="text/css" rel="stylesheet" href="API_%D0%A0%D0%B5%D0%B4%D0%B0%D0%BA%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%BF%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F%20-%20%D0%A1%D1%82%D0%B0%D1%82%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0%20%D0%BB%D1%83%D1%87%D1%88%D0%B8%D1%85%20%D0%BF%D0%BE%D1%81%D1%82%D0%BE%D0%B2_files/base.css"><link type="text/css" rel="stylesheet" href="API_%D0%A0%D0%B5%D0%B4%D0%B0%D0%BA%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%BF%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F%20-%20%D0%A1%D1%82%D0%B0%D1%82%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0%20%D0%BB%D1%83%D1%87%D1%88%D0%B8%D1%85%20%D0%BF%D0%BE%D1%81%D1%82%D0%BE%D0%B2_files/fonts_utf.css"><link type="text/css" rel="stylesheet" href="API_%D0%A0%D0%B5%D0%B4%D0%B0%D0%BA%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%BF%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F%20-%20%D0%A1%D1%82%D0%B0%D1%82%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0%20%D0%BB%D1%83%D1%87%D1%88%D0%B8%D1%85%20%D0%BF%D0%BE%D1%81%D1%82%D0%BE%D0%B2_files/fonts_cnt.css">
+
+<script type="text/javascript" async="" src="API_%D0%A0%D0%B5%D0%B4%D0%B0%D0%BA%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%BF%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F%20-%20%D0%A1%D1%82%D0%B0%D1%82%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0%20%D0%BB%D1%83%D1%87%D1%88%D0%B8%D1%85%20%D0%BF%D0%BE%D1%81%D1%82%D0%BE%D0%B2_files/code.js"></script><script type="text/javascript">
+(function() {
+var alertCont;
+function trackOldBrowserEvent(event) {
+  var xhr = new XMLHttpRequest();
+  xhr.open('GET', '/badbrowser_stat.php?act=track&event=' + event);
+  xhr.send();
+}
+function exposeGlobals() {
+  window.hideOldBrowser = function() {
+    alertCont.remove();
+    var date = new Date();
+    date.setTime(date.getTime() + (7 * 24 * 60 * 60 * 1000));
+    var expiresDate = date.toGMTString();
+    var domain = window.locDomain;
+    document.cookie = 'remixoldbshown=1; expires=' + expiresDate + '; path=/' + (domain ? '; domain=.' + domain : '') + ';secure';
+    trackOldBrowserEvent('hideAlert_atom');
+  }
+}
+function checkOldBrowser() {
+  if(!document.body) {
+    setTimeout(checkOldBrowser, 100);
+    return;
+  }
+  try {
+    const lastVersions = {
+      'mozilla': 79,
+      'chrome': 85,
+      'safari': 13,
+      'opera': 70,
+      'msie_edge': 85,
+      'yabrowser': 84,
+    };
+    let browserName;
+    Object.keys(lastVersions).forEach((name) => {
+      if (browser[name]) {
+        browserName = name;
+      }
+    })
+    const browserVersion = parseInt(browser.version);
+    if ((browserVersion <= lastVersions[browserName] - 4 || !('noModule' in HTMLScriptElement.prototype))
+      && !(browserName === 'mozilla' && browserVersion === 68) /* esr */) {
+      exposeGlobals();
+      var alert = '<div class="OldBrowser__container OldBrowser__container--atom" style="width:960px;">  Ваш браузер устарел. Попробуйте <a href="https://vk.com/away.php?to=https%3A%2F%2F1l-go.mail.ru%2Fr%2Fadid%2F3088915_2013344%2Fpid%2F102819%2Fpof%2F1%2Ff%2F3%2F%3F_1larg_sub%3Dwidgetgame.505007%26rfr%3D505007%26utm_source%3Dvk%26utm_medium%3Dstripeall%26utm_campaign%3DExpVk&badbrowser=atom&badbrowser_meta=_badbrowser_alert&" target="_blank">браузер Atom</a>, чтобы работа ВКонтакте была быстрой и стабильной. <a href="https://vk.com/away.php?to=https%3A%2F%2F1l-go.mail.ru%2Fr%2Fadid%2F3088915_2013344%2Fpid%2F102819%2Fpof%2F1%2Ff%2F3%2F%3F_1larg_sub%3Dwidgetgame.505007%26rfr%3D505007%26utm_source%3Dvk%26utm_medium%3Dstripeall%26utm_campaign%3DExpVk&badbrowser=atom&badbrowser_meta=_badbrowser_alert&" target="_blank">Подробнее</a>  <span class="OldBrowser__close" aria-label="Закрыть" role="button" onclick="hideOldBrowser();"></span></div>';
+      alertCont = document.createElement('div');
+      alertCont.className = 'OldBrowser';
+      alertCont.id = 'old_browser_wrap';
+      alertCont.innerHTML = alert;
+      document.body.appendChild(alertCont);
+      trackOldBrowserEvent('showAlert_atom');
+    } else {
+      if (browserVersion < lastVersions[browserName] - 1) {
+        trackOldBrowserEvent('badBrowser' + (lastVersions[browserName] - browserVersion));
+      }
+    }
+  } catch(e) {}
+}
+checkOldBrowser();
+})();
+var vk = {
+  ads_rotate_interval: 120000,
+  al: parseInt('3') || 4,
+  id: 519561453,
+  intnat: '' ? true : false,
+  host: 'vk.com',
+  loginDomain: 'https://login.vk.com/',
+  lang: 0,
+  statsMeta: {"platform":"web2","st":false,"time":1601753664,"hash":"TkmVxyS4S9GvyBZDA9eeoHZ2X1qaz8asea90ukgQlok"},
+  loaderNavSection: '',
+  rtl: parseInt('') || 0,
+  version: 13228931,
+  stDomains: 0,
+  stDomain: '',
+  navPostfix: "",
+  wsTransport: 'https://stats.vk-portal.net',
+  stExcludedMasks: ["loader_nav","lang"],
+  zero: false,
+  contlen: 37383,
+  loginscheme: 'https',
+  ip_h: 'a0dc3288ba5bc63507',
+  navPrefix: '/',
+  dt: parseInt('0') || 0,
+  fs: parseInt('13') || 13,
+  ts: 1601753664,
+  tz: 10800,
+  pd: 0,
+  vcost: 7,
+  time: [2020, 10, 3, 22, 34, 24],
+  sampleUser: -1, spentLastSendTS: new Date().getTime(),
+  a11y: 0,
+  statusExportHash: '8542b99170a087e765',
+  audioAdsConfig: {"enabled":true,"sections":["my","user_playlists","group_playlists","my_playlists","recent","audio_feed","recs","recs_audio","recs_album","search","global_search","group_list","user_list","user_wall","group_wall","feed","other","recoms_recoms","recoms_new_audios","recoms_new_albums","recoms_communities","recoms_added_recommendation","recoms_top_audios_global","recoms_mood_playlists","games","any_case_playlists","collections","genre_rock","genre_pop","genre_rap","editors_playlists","recoms_recent_recommendation","recoms_new_artists","recoms_friends","recoms_recent_audios","recoms_recent_playlists","recoms_top_audios_global","recoms_artist_promo_playlists","recommended_concerts","search_suggestions","search_owned_audios","search_owned_playlist","search_global_audios","search_global_communities","search_global_playlist","search_global_albums","search_global_artists","search_videoclips","artist_info","artist_main_albums","artist_main_audios","artist_featured_albums","artist_featured_audios","artist_featured_albums","artist_featured_albums","artist_pages","artist_events","artist_related","artist_new_album","artist_top_audios","artist_top_videos","artist_concerts"],"day_limit_reached":false,"sign":"24673680e0da4734656c757144e2f1ba98d06c83"},
+  longViewTestGroup: null,
+  cma: 1,
+  lpConfig: {
+    enabled: 1,
+    key: 'e404a78d333d10cc19878549fa787d8c4578fa6e',
+    ts: 1617888562,
+    url: 'https://im.vk.com/nim519561453',
+    lpstat: 0,
+    sseUrl: 'https://papi.vk.com/pushsse/ruim'
+  },
+
+  pr_tpl: "<div class=\"pr %cls%\" id=\"%id%\"><div class=\"pr_bt\"><\/div><div class=\"pr_bt\"><\/div><div class=\"pr_bt\"><\/div><\/div>",
+  push_hash: '487d673f7d975ba1f4',
+
+  audioInlinePlayerTpl: "<div class=\"audio_inline_player _audio_inline_player no_select\">\n  <div class=\"audio_inline_player_right\">\n    <div class=\"audio_inline_player_volume\"><\/div>\n  <\/div>\n  <div class=\"audio_inline_player_left\">\n    <div class=\"audio_inline_player_progress\"><\/div>\n  <\/div>\n<\/div>",
+
+  pe: {"article_poll":1,"vk_apps_svg_qr":1,"upload.send_upload_stat":1,"push_notifier":1,"story_reactions_web":1,"notify_new_events_box":1,"web_ajax_json_object":1,"mini_apps_web_add_to_favorites":1,"mini_apps_web_add_to_menu":1,"mini_apps_m_web_new_stub_page":1,"mini_apps_web_catalog_enabled":1,"cookie_secure_default_true":1,"mvk_new_info_snackbar":1,"stickers_bot_link":1,"apps_promo_share_story":1,"widgets_xdm_same_origin":1,"stickers_money_transfer_suggestions":1,"web2_story_box_enabled":1,"bridge_mobile_story_box_enabled":1,"gifts_stickers_preview_tooltips":1,"easy_market_promote_new_payment":1,"navigation_timespent":1,"mvk_mediascope_counter":1,"market_item_recommendations_view_log":1,"market_item_others_view_log":1,"web_stats_transport_story_view":1,"registration_item_stat":1,"mvk_lazy_static_reload":1,"notifications_view_new":1,"add_from_field_to_docs_box":1,"ads_market_autopromotion_bookmarks_stats":1,"mini_apps_web_call_api_form_data":1,"mvk_stickers_panel_optimize":1,"web_new_photo_editor":1,"web_new_photo_editor_crop":1,"web_photo_editor_hide_entrypoint":1,"web_stats_try_send":1,"stickers_catalog_reload_after_buy":1,"market_hidden_albums_in_autopromotion":1},
+  ex: [],
+  countryISO: 'RU',
+};;vk.rv="104177";;if (!window.constants) { window.constants = {Groups: {
+  GROUPS_ADMIN_LEVEL_USER: 0,
+  GROUPS_ADMIN_LEVEL_MODERATOR: 1,
+  GROUPS_ADMIN_LEVEL_EDITOR: 2,
+  GROUPS_ADMIN_LEVEL_ADMINISTRATOR: 3,
+  GROUPS_ADMIN_LEVEL_HOST: 4,
+  GROUPS_ADMIN_LEVEL_EVENT_CREATOR: 5,
+  GROUPS_ADMIN_LEVEL_CREATOR: 6,
+  GROUPS_ADMIN_PSEUDO_LEVEL_ADVERTISER: 100
+}}; };
+
+window.locDomain = vk.host.match(/[a-zA-Z]+\.[a-zA-Z]+\.?$/)[0];
+var _ua = navigator.userAgent.toLowerCase();
+if (/opera/i.test(_ua) || !/msie 6/i.test(_ua) || document.domain != locDomain) document.domain = locDomain;
+var ___htest = (location.toString().match(/#(.*)/) || {})[1] || '', ___to;
+___htest = ___htest.split('#').pop();
+if (vk.al != 1 && ___htest.length && ___htest.substr(0, 1) == vk.navPrefix) {
+  if (vk.al != 3 || vk.navPrefix != '!') {
+    ___to = ___htest.replace(/^(\/|!)/, '');
+    if (___to.match(/^([^\?]*\.php|login|mobile|away)([^a-z0-9\.]|$)/)) ___to = '';
+    location.replace(location.protocol + '//' + location.host + '/' + ___to);
+  }
+}
+
+var StaticFiles = {
+  'cmodules/web/common_web.js' : {v: '203'},
+  'al/common.896cb918460a84ab9709.css':{v:''},'common.css':{v:1},'al/base.56b146f932711a9cb938.css':{v:''},'base.css':{v:1},'al/fonts_utf.53f24c4c5577419ba632.css':{v:''},'fonts_utf.css':{v:1},'al/fonts_cnt.7cc314ac69198e349896.css':{v:''},'fonts_cnt.css':{v:1}
+  ,'cmodules/bundles/audioplayer.8580e35e0cf4f318f6e1.js':{v:'680f7598b278c0984a18'},'cmodules/bundles/lottie.297b2d32ff3aef7873c9.js':{v:'0215a0964df9d6b5ad6d'},'cmodules/bundles/vendors.a1beb22ad8f0da2c28d6.js':{v:'e806aac7039b2d51594a'},'cmodules/bundles/common.0f761a3a2c7a83e308c0.js':{v:'42bbe442c01d0a105a0c'},'cmodules/web/common_web.67a4618965abfe630b85.js':{v:'37703c06e8917455be3b4de2428efdfb'},'lang0_0.js': {v: 26695894},'al/apps.a34e3868eabc68571f8a.css':{v:''},'apps.css':{v:1},'cmodules/bundles/145f605746e8e55e54cfd5bb0b7dca57.5ba25d221763b422c946.js':{v:'143131b596b02ebd7390'},'cmodules/bundles/15942e60c2552d8c9c8d9c9d8dcedf2e.37c6285eabf1ce5c1023.js':{v:'76c5679ee438df26d288'},'cmodules/web/apps.6b62afb267d2902dfecd.js':{v:'5d116d5ac1b600be75de82381c1316b8'},'apps.js':{v:1},'cmodules/web/apps_edit.e022c7e901e3f4456aa0.js':{v:'0d14d4eab4a1e8dbec337419f4c9e6a3'},'apps_edit.js':{v:1},'al/apps_edit.5acaafbad83b3e517686.css':{v:''},'apps_edit.css':{v:1},'ui_controls.js':{v:189},'ui_controls.7f37a6a302de964be3f2.css':{v:''},'ui_controls.css':{v:1},'al/tooltips.fbe44cae2e5868a50cf8.css':{v:''},'tooltips.css':{v:1},'al/dev.676bb5f7c451d96630e9.css':{v:''},'dev.css':{v:1},'dev.js':{v:83},'al/ui_common.91edb010e236bae2d369.css':{v:''},'ui_common.css':{v:1},'cmodules/bundles/4060411aa2c063eade7896c7daf24353.86af82472f24a738380b.js':{v:'d5bf685575ec75fca343'},'cmodules/web/ui_common.833d69f7676502d99797.js':{v:'e07b55a645250bea826134ee0b37fea3'},'ui_common.js':{v:1},'cmodules/web/raven_logger.1c344686eaa9833c38f5.js':{v:'9374e02cc0f75dde304a447afdf29b81'},'cmodules/web/raven_logger.js':{v:1},'cmodules/web/css_types.fa3adcd78e235c3333b2.js':{v:'9234bc193fb1fb97ec28'},'cmodules/web/css_types.js':{v:1},'cmodules/web/jobs_devtools_notification.89f54f8f8bfe2b5ab6c3.js':{v:'1479855534d003420e4e1a1af6bacf09'},'cmodules/web/jobs_devtools_notification.js':{v:1},'cmodules/web/page_layout.b320a22c818516c5b2ab.js':{v:'84d7c89907979930c080'},'cmodules/web/page_layout.js':{v:1},'cmodules/bundles/f8a3b0b69a90b5305d627c89f0bd674e.5667231f7368eb1d0c96.js':{v:'f52b6feea9fa5393a751'},'cmodules/web/likes.c6246bfec71a167289cc.js':{v:'e390a04c78ec2ba9317d6d0f152cf591'},'cmodules/web/likes.js':{v:1},'cmodules/bundles/90e4107c91b3e7820e0825f9b2a618b5.2b5eb65c08d5604e5a6b.js':{v:'033e83924c00f651d09a'},'cmodules/web/notifier.157a5b67c6190bfedc99.js':{v:'9bb2e5aee6312b6cf0961652d77369bf'},'notifier.js':{v:1},'al/notifier.05cf9ed35000c24f3f47.css':{v:''},'notifier.css':{v:1}
+}
+var abp;
+</script>
+
+<script type="text/javascript" src="API_%D0%A0%D0%B5%D0%B4%D0%B0%D0%BA%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%BF%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F%20-%20%D0%A1%D1%82%D0%B0%D1%82%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0%20%D0%BB%D1%83%D1%87%D1%88%D0%B8%D1%85%20%D0%BF%D0%BE%D1%81%D1%82%D0%BE%D0%B2_files/loader_nav215713226774_0.js"></script><script type="text/javascript" src="API_%D0%A0%D0%B5%D0%B4%D0%B0%D0%BA%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%BF%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F%20-%20%D0%A1%D1%82%D0%B0%D1%82%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0%20%D0%BB%D1%83%D1%87%D1%88%D0%B8%D1%85%20%D0%BF%D0%BE%D1%81%D1%82%D0%BE%D0%B2_files/audioplayer.js"></script><script type="text/javascript" src="API_%D0%A0%D0%B5%D0%B4%D0%B0%D0%BA%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%BF%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F%20-%20%D0%A1%D1%82%D0%B0%D1%82%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0%20%D0%BB%D1%83%D1%87%D1%88%D0%B8%D1%85%20%D0%BF%D0%BE%D1%81%D1%82%D0%BE%D0%B2_files/lottie.js"></script><script type="text/javascript" src="API_%D0%A0%D0%B5%D0%B4%D0%B0%D0%BA%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%BF%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F%20-%20%D0%A1%D1%82%D0%B0%D1%82%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0%20%D0%BB%D1%83%D1%87%D1%88%D0%B8%D1%85%20%D0%BF%D0%BE%D1%81%D1%82%D0%BE%D0%B2_files/vendors.js"></script><script type="text/javascript" src="API_%D0%A0%D0%B5%D0%B4%D0%B0%D0%BA%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%BF%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F%20-%20%D0%A1%D1%82%D0%B0%D1%82%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0%20%D0%BB%D1%83%D1%87%D1%88%D0%B8%D1%85%20%D0%BF%D0%BE%D1%81%D1%82%D0%BE%D0%B2_files/common_004.js"></script><script type="text/javascript" src="API_%D0%A0%D0%B5%D0%B4%D0%B0%D0%BA%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%BF%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F%20-%20%D0%A1%D1%82%D0%B0%D1%82%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0%20%D0%BB%D1%83%D1%87%D1%88%D0%B8%D1%85%20%D0%BF%D0%BE%D1%81%D1%82%D0%BE%D0%B2_files/common_web.js"></script><script type="text/javascript" src="API_%D0%A0%D0%B5%D0%B4%D0%B0%D0%BA%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%BF%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F%20-%20%D0%A1%D1%82%D0%B0%D1%82%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0%20%D0%BB%D1%83%D1%87%D1%88%D0%B8%D1%85%20%D0%BF%D0%BE%D1%81%D1%82%D0%BE%D0%B2_files/lang0_0.js"></script><script type="text/javascript" src="API_%D0%A0%D0%B5%D0%B4%D0%B0%D0%BA%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%BF%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F%20-%20%D0%A1%D1%82%D0%B0%D1%82%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0%20%D0%BB%D1%83%D1%87%D1%88%D0%B8%D1%85%20%D0%BF%D0%BE%D1%81%D1%82%D0%BE%D0%B2_files/px_002.js"></script><script type="text/javascript" src="API_%D0%A0%D0%B5%D0%B4%D0%B0%D0%BA%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%BF%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F%20-%20%D0%A1%D1%82%D0%B0%D1%82%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0%20%D0%BB%D1%83%D1%87%D1%88%D0%B8%D1%85%20%D0%BF%D0%BE%D1%81%D1%82%D0%BE%D0%B2_files/px.js"></script><meta name="msApplication-ID" content="C6965DD5.VK"><meta name="msApplication-PackageFamilyName" content="C6965DD5.VK_v422avzh127ra"><meta name="google-site-verification" content="CNjLCRpSR2sryzCC4NQKKCL5WnvmBTaag2J_UlTyYeQ"><meta name="yandex-verification" content="798f8402854bea07"><link type="text/css" rel="stylesheet" href="API_%D0%A0%D0%B5%D0%B4%D0%B0%D0%BA%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%BF%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F%20-%20%D0%A1%D1%82%D0%B0%D1%82%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0%20%D0%BB%D1%83%D1%87%D1%88%D0%B8%D1%85%20%D0%BF%D0%BE%D1%81%D1%82%D0%BE%D0%B2_files/apps.css"><script type="text/javascript" src="API_%D0%A0%D0%B5%D0%B4%D0%B0%D0%BA%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%BF%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F%20-%20%D0%A1%D1%82%D0%B0%D1%82%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0%20%D0%BB%D1%83%D1%87%D1%88%D0%B8%D1%85%20%D0%BF%D0%BE%D1%81%D1%82%D0%BE%D0%B2_files/145f605746e8e55e54cfd5bb0b7dca57.js"></script><script type="text/javascript" src="API_%D0%A0%D0%B5%D0%B4%D0%B0%D0%BA%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%BF%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F%20-%20%D0%A1%D1%82%D0%B0%D1%82%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0%20%D0%BB%D1%83%D1%87%D1%88%D0%B8%D1%85%20%D0%BF%D0%BE%D1%81%D1%82%D0%BE%D0%B2_files/15942e60c2552d8c9c8d9c9d8dcedf2e.js"></script><script type="text/javascript" src="API_%D0%A0%D0%B5%D0%B4%D0%B0%D0%BA%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%BF%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F%20-%20%D0%A1%D1%82%D0%B0%D1%82%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0%20%D0%BB%D1%83%D1%87%D1%88%D0%B8%D1%85%20%D0%BF%D0%BE%D1%81%D1%82%D0%BE%D0%B2_files/apps.js"></script><script type="text/javascript" src="API_%D0%A0%D0%B5%D0%B4%D0%B0%D0%BA%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%BF%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F%20-%20%D0%A1%D1%82%D0%B0%D1%82%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0%20%D0%BB%D1%83%D1%87%D1%88%D0%B8%D1%85%20%D0%BF%D0%BE%D1%81%D1%82%D0%BE%D0%B2_files/apps_edit.js"></script><link type="text/css" rel="stylesheet" href="API_%D0%A0%D0%B5%D0%B4%D0%B0%D0%BA%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%BF%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F%20-%20%D0%A1%D1%82%D0%B0%D1%82%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0%20%D0%BB%D1%83%D1%87%D1%88%D0%B8%D1%85%20%D0%BF%D0%BE%D1%81%D1%82%D0%BE%D0%B2_files/apps_edit.css"><script type="text/javascript" src="API_%D0%A0%D0%B5%D0%B4%D0%B0%D0%BA%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%BF%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F%20-%20%D0%A1%D1%82%D0%B0%D1%82%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0%20%D0%BB%D1%83%D1%87%D1%88%D0%B8%D1%85%20%D0%BF%D0%BE%D1%81%D1%82%D0%BE%D0%B2_files/ui_controls.js"></script><link type="text/css" rel="stylesheet" href="API_%D0%A0%D0%B5%D0%B4%D0%B0%D0%BA%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%BF%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F%20-%20%D0%A1%D1%82%D0%B0%D1%82%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0%20%D0%BB%D1%83%D1%87%D1%88%D0%B8%D1%85%20%D0%BF%D0%BE%D1%81%D1%82%D0%BE%D0%B2_files/ui_controls.css"><link type="text/css" rel="stylesheet" href="API_%D0%A0%D0%B5%D0%B4%D0%B0%D0%BA%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%BF%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F%20-%20%D0%A1%D1%82%D0%B0%D1%82%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0%20%D0%BB%D1%83%D1%87%D1%88%D0%B8%D1%85%20%D0%BF%D0%BE%D1%81%D1%82%D0%BE%D0%B2_files/tooltips.css"><link type="text/css" rel="stylesheet" href="API_%D0%A0%D0%B5%D0%B4%D0%B0%D0%BA%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%BF%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F%20-%20%D0%A1%D1%82%D0%B0%D1%82%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0%20%D0%BB%D1%83%D1%87%D1%88%D0%B8%D1%85%20%D0%BF%D0%BE%D1%81%D1%82%D0%BE%D0%B2_files/dev.css"><script type="text/javascript" src="API_%D0%A0%D0%B5%D0%B4%D0%B0%D0%BA%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%BF%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F%20-%20%D0%A1%D1%82%D0%B0%D1%82%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0%20%D0%BB%D1%83%D1%87%D1%88%D0%B8%D1%85%20%D0%BF%D0%BE%D1%81%D1%82%D0%BE%D0%B2_files/dev.js"></script><link type="text/css" rel="stylesheet" href="API_%D0%A0%D0%B5%D0%B4%D0%B0%D0%BA%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%BF%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F%20-%20%D0%A1%D1%82%D0%B0%D1%82%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0%20%D0%BB%D1%83%D1%87%D1%88%D0%B8%D1%85%20%D0%BF%D0%BE%D1%81%D1%82%D0%BE%D0%B2_files/ui_common.css"><script type="text/javascript" src="API_%D0%A0%D0%B5%D0%B4%D0%B0%D0%BA%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%BF%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F%20-%20%D0%A1%D1%82%D0%B0%D1%82%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0%20%D0%BB%D1%83%D1%87%D1%88%D0%B8%D1%85%20%D0%BF%D0%BE%D1%81%D1%82%D0%BE%D0%B2_files/4060411aa2c063eade7896c7daf24353.js"></script><script type="text/javascript" src="API_%D0%A0%D0%B5%D0%B4%D0%B0%D0%BA%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%BF%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F%20-%20%D0%A1%D1%82%D0%B0%D1%82%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0%20%D0%BB%D1%83%D1%87%D1%88%D0%B8%D1%85%20%D0%BF%D0%BE%D1%81%D1%82%D0%BE%D0%B2_files/ui_common.js"></script><script type="text/javascript" src="API_%D0%A0%D0%B5%D0%B4%D0%B0%D0%BA%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%BF%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F%20-%20%D0%A1%D1%82%D0%B0%D1%82%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0%20%D0%BB%D1%83%D1%87%D1%88%D0%B8%D1%85%20%D0%BF%D0%BE%D1%81%D1%82%D0%BE%D0%B2_files/raven_logger.js"></script><script type="text/javascript" src="API_%D0%A0%D0%B5%D0%B4%D0%B0%D0%BA%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%BF%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F%20-%20%D0%A1%D1%82%D0%B0%D1%82%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0%20%D0%BB%D1%83%D1%87%D1%88%D0%B8%D1%85%20%D0%BF%D0%BE%D1%81%D1%82%D0%BE%D0%B2_files/css_types.js"></script><script type="text/javascript" src="API_%D0%A0%D0%B5%D0%B4%D0%B0%D0%BA%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%BF%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F%20-%20%D0%A1%D1%82%D0%B0%D1%82%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0%20%D0%BB%D1%83%D1%87%D1%88%D0%B8%D1%85%20%D0%BF%D0%BE%D1%81%D1%82%D0%BE%D0%B2_files/jobs_devtools_notification.js"></script><script type="text/javascript" src="API_%D0%A0%D0%B5%D0%B4%D0%B0%D0%BA%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%BF%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F%20-%20%D0%A1%D1%82%D0%B0%D1%82%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0%20%D0%BB%D1%83%D1%87%D1%88%D0%B8%D1%85%20%D0%BF%D0%BE%D1%81%D1%82%D0%BE%D0%B2_files/page_layout.js"></script><script type="text/javascript" src="API_%D0%A0%D0%B5%D0%B4%D0%B0%D0%BA%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%BF%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F%20-%20%D0%A1%D1%82%D0%B0%D1%82%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0%20%D0%BB%D1%83%D1%87%D1%88%D0%B8%D1%85%20%D0%BF%D0%BE%D1%81%D1%82%D0%BE%D0%B2_files/f8a3b0b69a90b5305d627c89f0bd674e.js"></script><script type="text/javascript" src="API_%D0%A0%D0%B5%D0%B4%D0%B0%D0%BA%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%BF%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F%20-%20%D0%A1%D1%82%D0%B0%D1%82%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0%20%D0%BB%D1%83%D1%87%D1%88%D0%B8%D1%85%20%D0%BF%D0%BE%D1%81%D1%82%D0%BE%D0%B2_files/likes.js"></script><script type="text/javascript" src="API_%D0%A0%D0%B5%D0%B4%D0%B0%D0%BA%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%BF%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F%20-%20%D0%A1%D1%82%D0%B0%D1%82%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0%20%D0%BB%D1%83%D1%87%D1%88%D0%B8%D1%85%20%D0%BF%D0%BE%D1%81%D1%82%D0%BE%D0%B2_files/90e4107c91b3e7820e0825f9b2a618b5.js"></script><script type="text/javascript" src="API_%D0%A0%D0%B5%D0%B4%D0%B0%D0%BA%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%BF%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F%20-%20%D0%A1%D1%82%D0%B0%D1%82%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0%20%D0%BB%D1%83%D1%87%D1%88%D0%B8%D1%85%20%D0%BF%D0%BE%D1%81%D1%82%D0%BE%D0%B2_files/notifier.js"></script><link type="text/css" rel="stylesheet" href="API_%D0%A0%D0%B5%D0%B4%D0%B0%D0%BA%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%BF%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F%20-%20%D0%A1%D1%82%D0%B0%D1%82%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0%20%D0%BB%D1%83%D1%87%D1%88%D0%B8%D1%85%20%D0%BF%D0%BE%D1%81%D1%82%D0%BE%D0%B2_files/notifier.css">
+
+<script src="API_%D0%A0%D0%B5%D0%B4%D0%B0%D0%BA%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%BF%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F%20-%20%D0%A1%D1%82%D0%B0%D1%82%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0%20%D0%BB%D1%83%D1%87%D1%88%D0%B8%D1%85%20%D0%BF%D0%BE%D1%81%D1%82%D0%BE%D0%B2_files/abc_light.js"></script><style type="text/css" media="screen"></style><script src="API_%D0%A0%D0%B5%D0%B4%D0%B0%D0%BA%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%BF%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F%20-%20%D0%A1%D1%82%D0%B0%D1%82%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0%20%D0%BB%D1%83%D1%87%D1%88%D0%B8%D1%85%20%D0%BF%D0%BE%D1%81%D1%82%D0%BE%D0%B2_files/emoji.js"></script><script src="API_%D0%A0%D0%B5%D0%B4%D0%B0%D0%BA%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%BF%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F%20-%20%D0%A1%D1%82%D0%B0%D1%82%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0%20%D0%BB%D1%83%D1%87%D1%88%D0%B8%D1%85%20%D0%BF%D0%BE%D1%81%D1%82%D0%BE%D0%B2_files/calls.js"></script><link rel="stylesheet" type="text/css" href="API_%D0%A0%D0%B5%D0%B4%D0%B0%D0%BA%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%BF%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F%20-%20%D0%A1%D1%82%D0%B0%D1%82%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0%20%D0%BB%D1%83%D1%87%D1%88%D0%B8%D1%85%20%D0%BF%D0%BE%D1%81%D1%82%D0%BE%D0%B2_files/calls.css"><script type="text/javascript" src="API_%D0%A0%D0%B5%D0%B4%D0%B0%D0%BA%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%BF%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F%20-%20%D0%A1%D1%82%D0%B0%D1%82%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0%20%D0%BB%D1%83%D1%87%D1%88%D0%B8%D1%85%20%D0%BF%D0%BE%D1%81%D1%82%D0%BE%D0%B2_files/loader_nav13228931_0.js"></script><script src="API_%D0%A0%D0%B5%D0%B4%D0%B0%D0%BA%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%BF%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F%20-%20%D0%A1%D1%82%D0%B0%D1%82%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0%20%D0%BB%D1%83%D1%87%D1%88%D0%B8%D1%85%20%D0%BF%D0%BE%D1%81%D1%82%D0%BE%D0%B2_files/stickers.js"></script><script src="API_%D0%A0%D0%B5%D0%B4%D0%B0%D0%BA%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%BF%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F%20-%20%D0%A1%D1%82%D0%B0%D1%82%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0%20%D0%BB%D1%83%D1%87%D1%88%D0%B8%D1%85%20%D0%BF%D0%BE%D1%81%D1%82%D0%BE%D0%B2_files/imn.js"></script><link rel="stylesheet" type="text/css" href="API_%D0%A0%D0%B5%D0%B4%D0%B0%D0%BA%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%BF%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F%20-%20%D0%A1%D1%82%D0%B0%D1%82%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0%20%D0%BB%D1%83%D1%87%D1%88%D0%B8%D1%85%20%D0%BF%D0%BE%D1%81%D1%82%D0%BE%D0%B2_files/uncommon.css"><script src="API_%D0%A0%D0%B5%D0%B4%D0%B0%D0%BA%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%BF%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F%20-%20%D0%A1%D1%82%D0%B0%D1%82%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0%20%D0%BB%D1%83%D1%87%D1%88%D0%B8%D1%85%20%D0%BF%D0%BE%D1%81%D1%82%D0%BE%D0%B2_files/tooltips.js"></script><script src="API_%D0%A0%D0%B5%D0%B4%D0%B0%D0%BA%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%BF%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F%20-%20%D0%A1%D1%82%D0%B0%D1%82%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0%20%D0%BB%D1%83%D1%87%D1%88%D0%B8%D1%85%20%D0%BF%D0%BE%D1%81%D1%82%D0%BE%D0%B2_files/privacy.js"></script><link rel="stylesheet" type="text/css" href="API_%D0%A0%D0%B5%D0%B4%D0%B0%D0%BA%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%BF%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F%20-%20%D0%A1%D1%82%D0%B0%D1%82%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0%20%D0%BB%D1%83%D1%87%D1%88%D0%B8%D1%85%20%D0%BF%D0%BE%D1%81%D1%82%D0%BE%D0%B2_files/privacy.css"><script src="API_%D0%A0%D0%B5%D0%B4%D0%B0%D0%BA%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%BF%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F%20-%20%D0%A1%D1%82%D0%B0%D1%82%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0%20%D0%BB%D1%83%D1%87%D1%88%D0%B8%D1%85%20%D0%BF%D0%BE%D1%81%D1%82%D0%BE%D0%B2_files/upload.js"></script><script src="API_%D0%A0%D0%B5%D0%B4%D0%B0%D0%BA%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%BF%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F%20-%20%D0%A1%D1%82%D0%B0%D1%82%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0%20%D0%BB%D1%83%D1%87%D1%88%D0%B8%D1%85%20%D0%BF%D0%BE%D1%81%D1%82%D0%BE%D0%B2_files/tags_dd.js"></script><link rel="stylesheet" type="text/css" href="API_%D0%A0%D0%B5%D0%B4%D0%B0%D0%BA%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%BF%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F%20-%20%D0%A1%D1%82%D0%B0%D1%82%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0%20%D0%BB%D1%83%D1%87%D1%88%D0%B8%D1%85%20%D0%BF%D0%BE%D1%81%D1%82%D0%BE%D0%B2_files/tags_dd.css"><script type="text/javascript" src="API_%D0%A0%D0%B5%D0%B4%D0%B0%D0%BA%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%BF%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F%20-%20%D0%A1%D1%82%D0%B0%D1%82%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0%20%D0%BB%D1%83%D1%87%D1%88%D0%B8%D1%85%20%D0%BF%D0%BE%D1%81%D1%82%D0%BE%D0%B2_files/loader_nav15533458_0.js"></script><script type="text/javascript" src="API_%D0%A0%D0%B5%D0%B4%D0%B0%D0%BA%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%BF%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F%20-%20%D0%A1%D1%82%D0%B0%D1%82%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0%20%D0%BB%D1%83%D1%87%D1%88%D0%B8%D1%85%20%D0%BF%D0%BE%D1%81%D1%82%D0%BE%D0%B2_files/loader_nav15533458_0.js"></script><script type="text/javascript" src="API_%D0%A0%D0%B5%D0%B4%D0%B0%D0%BA%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%BF%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F%20-%20%D0%A1%D1%82%D0%B0%D1%82%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0%20%D0%BB%D1%83%D1%87%D1%88%D0%B8%D1%85%20%D0%BF%D0%BE%D1%81%D1%82%D0%BE%D0%B2_files/loader_nav6276773_0.js"></script><script src="API_%D0%A0%D0%B5%D0%B4%D0%B0%D0%BA%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%BF%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F%20-%20%D0%A1%D1%82%D0%B0%D1%82%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0%20%D0%BB%D1%83%D1%87%D1%88%D0%B8%D1%85%20%D0%BF%D0%BE%D1%81%D1%82%D0%BE%D0%B2_files/common.js"></script><script type="text/javascript" src="API_%D0%A0%D0%B5%D0%B4%D0%B0%D0%BA%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%BF%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F%20-%20%D0%A1%D1%82%D0%B0%D1%82%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0%20%D0%BB%D1%83%D1%87%D1%88%D0%B8%D1%85%20%D0%BF%D0%BE%D1%81%D1%82%D0%BE%D0%B2_files/loader_nav15533459_0.js"></script><script type="text/javascript" src="API_%D0%A0%D0%B5%D0%B4%D0%B0%D0%BA%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%BF%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F%20-%20%D0%A1%D1%82%D0%B0%D1%82%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0%20%D0%BB%D1%83%D1%87%D1%88%D0%B8%D1%85%20%D0%BF%D0%BE%D1%81%D1%82%D0%BE%D0%B2_files/loader_nav4192340_0.js"></script><script src="API_%D0%A0%D0%B5%D0%B4%D0%B0%D0%BA%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%BF%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F%20-%20%D0%A1%D1%82%D0%B0%D1%82%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0%20%D0%BB%D1%83%D1%87%D1%88%D0%B8%D1%85%20%D0%BF%D0%BE%D1%81%D1%82%D0%BE%D0%B2_files/common_003.js"></script><script src="API_%D0%A0%D0%B5%D0%B4%D0%B0%D0%BA%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%BF%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F%20-%20%D0%A1%D1%82%D0%B0%D1%82%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0%20%D0%BB%D1%83%D1%87%D1%88%D0%B8%D1%85%20%D0%BF%D0%BE%D1%81%D1%82%D0%BE%D0%B2_files/notifier_002.js"></script><script type="text/javascript" src="API_%D0%A0%D0%B5%D0%B4%D0%B0%D0%BA%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%BF%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F%20-%20%D0%A1%D1%82%D0%B0%D1%82%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0%20%D0%BB%D1%83%D1%87%D1%88%D0%B8%D1%85%20%D0%BF%D0%BE%D1%81%D1%82%D0%BE%D0%B2_files/loader_nav8443909_0.js"></script><script type="text/javascript" src="API_%D0%A0%D0%B5%D0%B4%D0%B0%D0%BA%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%BF%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F%20-%20%D0%A1%D1%82%D0%B0%D1%82%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0%20%D0%BB%D1%83%D1%87%D1%88%D0%B8%D1%85%20%D0%BF%D0%BE%D1%81%D1%82%D0%BE%D0%B2_files/loader_nav14573712_0.js"></script><script src="API_%D0%A0%D0%B5%D0%B4%D0%B0%D0%BA%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%BF%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F%20-%20%D0%A1%D1%82%D0%B0%D1%82%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0%20%D0%BB%D1%83%D1%87%D1%88%D0%B8%D1%85%20%D0%BF%D0%BE%D1%81%D1%82%D0%BE%D0%B2_files/6f841e419277cbc243658d1acc381c62.js"></script><script src="API_%D0%A0%D0%B5%D0%B4%D0%B0%D0%BA%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%BF%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F%20-%20%D0%A1%D1%82%D0%B0%D1%82%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0%20%D0%BB%D1%83%D1%87%D1%88%D0%B8%D1%85%20%D0%BF%D0%BE%D1%81%D1%82%D0%BE%D0%B2_files/156809b5f19ba99d2d386cd9793694eb.js"></script><script src="API_%D0%A0%D0%B5%D0%B4%D0%B0%D0%BA%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%BF%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F%20-%20%D0%A1%D1%82%D0%B0%D1%82%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0%20%D0%BB%D1%83%D1%87%D1%88%D0%B8%D1%85%20%D0%BF%D0%BE%D1%81%D1%82%D0%BE%D0%B2_files/imn_002.js"></script><script type="text/javascript" src="API_%D0%A0%D0%B5%D0%B4%D0%B0%D0%BA%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%BF%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F%20-%20%D0%A1%D1%82%D0%B0%D1%82%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0%20%D0%BB%D1%83%D1%87%D1%88%D0%B8%D1%85%20%D0%BF%D0%BE%D1%81%D1%82%D0%BE%D0%B2_files/loader_nav9925568_0.js"></script><link rel="stylesheet" type="text/css" href="API_%D0%A0%D0%B5%D0%B4%D0%B0%D0%BA%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%BF%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F%20-%20%D0%A1%D1%82%D0%B0%D1%82%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0%20%D0%BB%D1%83%D1%87%D1%88%D0%B8%D1%85%20%D0%BF%D0%BE%D1%81%D1%82%D0%BE%D0%B2_files/common_002.css"><script src="API_%D0%A0%D0%B5%D0%B4%D0%B0%D0%BA%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%BF%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F%20-%20%D0%A1%D1%82%D0%B0%D1%82%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0%20%D0%BB%D1%83%D1%87%D1%88%D0%B8%D1%85%20%D0%BF%D0%BE%D1%81%D1%82%D0%BE%D0%B2_files/common_002.js"></script><script src="API_%D0%A0%D0%B5%D0%B4%D0%B0%D0%BA%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%BF%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F%20-%20%D0%A1%D1%82%D0%B0%D1%82%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0%20%D0%BB%D1%83%D1%87%D1%88%D0%B8%D1%85%20%D0%BF%D0%BE%D1%81%D1%82%D0%BE%D0%B2_files/17552e9a574969bcaa22abc208f30ce9.js"></script><script src="API_%D0%A0%D0%B5%D0%B4%D0%B0%D0%BA%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%BF%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F%20-%20%D0%A1%D1%82%D0%B0%D1%82%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0%20%D0%BB%D1%83%D1%87%D1%88%D0%B8%D1%85%20%D0%BF%D0%BE%D1%81%D1%82%D0%BE%D0%B2_files/imn_003.js"></script></head>
+
+<body onresize="onBodyResize()" class="firefox dev no_wrap_cont" data-useragent="mozilla" style="overflow: auto;">
+  <div id="system_msg" class="fixed"></div>
+  <div id="utils"><div id="chat_onl_wrap" class="chat_onl_wrap" style="display: none;">
+<div class="chat_tt_wrap"></div>
+<div class="chat_onl_inner">
+  <div class="chat_cont_scrolling"><div class="chat_onl_height"></div></div>
+  <div class="chat_cont_sh_top"></div>
+  <div class="chat_cont_sh_bottom"></div>
+  <a class="chat_tab_wrap" id="chat_tab_wrap" onclick="Chat.showFriends()" onmouseover="Chat.showTT();">
+    <div class="chat_onl_cont">
+      <div class="chat_onl" id="chat_onl"></div>
+    </div>
+  </a>
+</div></div><div id="queue_transport_wrap"><iframe id="queue_transport_frame" name="queue_transport_frame" src="API_%D0%A0%D0%B5%D0%B4%D0%B0%D0%BA%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%BF%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F%20-%20%D0%A1%D1%82%D0%B0%D1%82%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0%20%D0%BB%D1%83%D1%87%D1%88%D0%B8%D1%85%20%D0%BF%D0%BE%D1%81%D1%82%D0%BE%D0%B2_files/q_frame.html"></iframe></div><iframe src="https://login.vk.com/?_origin=https%3A%2F%2Fvk.com&amp;ip_h=b74f1fa88ca78dde01&amp;role=al_frame&amp;to=P2FjdD1hX29ubGluZXMmcGVlcj0-"></iframe><iframe src="https://login.vk.com/?_origin=https%3A%2F%2Fvk.com&amp;ip_h=b74f1fa88ca78dde01&amp;role=al_frame&amp;to=P2FjdD1hX29ubGluZXMmcGVlcj0-"></iframe></div>
+
+  <div id="layer_bg" class="fixed" style="height: 693px;"></div><div id="layer_wrap" class="scroll_fix_wrap fixed layer_wrap" style="width: 1366px; height: 693px;"><div id="layer" style="width: 1348px;"></div></div>
+  <div id="box_layer_bg" class="fixed" style="height: 693px; display: none;"></div><div id="box_layer_wrap" class="scroll_fix_wrap fixed" style="width: 1366px; height: 693px; display: none;"><div id="box_layer" style="width: 1348px;"><div id="box_loader" style="display: none; margin-top: 214.333px;"><div class="pr pr_baw pr_medium" id="box_loader_pr"><div class="pr_bt"></div><div class="pr_bt"></div><div class="pr_bt"></div></div><div class="back"></div></div></div></div>
+
+  <div id="stl_left" style="width: 178px; display: none; opacity: 0.17;" class="stl_active"><div id="stl_bg"><nobr id="stl_text">Наверх</nobr></div></div><div id="stl_side" style="left: 179px; width: 10px; top: 42px; height: 651px; display: none;" class="stl_active"></div>
+
+  <script type="text/javascript">window.domStarted && domStarted();</script>
+
+  <div id="notifiers_wrap" class="fixed"></div><div id="rb_box_fc_clist" class="rb_box_wrap fixed fc_fixed rb_inactive fc_tobottom" style="bottom: 0px; right: 72px; margin-right: 0px;"><div class="tt-fastchat-wrap"></div><div id="fc_clist" class="fc_tab_wrap" style="width: 270px;"><div class="fc_tab_head"><a class="fc_tab_close_wrap"><div class="chats_sp fc_tab_close"></div></a><a class="fc_tab_pin_wrap" onmousedown="event.cancelBubble = true;" onclick="return FastChat.pinTab(-1, event);"><div class="chats_sp fc_tab_pin"></div></a><div class="fc_tab_title noselect">Друзья онлайн</div></div><div id="fc_ctabs_cont"><div class="fc_ctab fc_ctab_active"><div class="fc_contacts_wrap"><div class="fc_scrollbar_cont scrollbar_cont" style="margin-top: 0px; margin-left: 0px; height: 0px; right: 1px; left: auto;"><div class="fc_scrollbar_inner scrollbar_inner" style="display: block; height: 40px; margin-top: 3px;"></div></div><div id="fc_contacts" class="fc_contacts" style="height: 299px; overflow: hidden;"><div class="fc_clist_empty">Ваших друзей нет онлайн</div></div></div><div class="fc_clist_filter_wrap" onclick="elfocus('fc_clist_filter');"><div class="chats_sp fc_clist_search_icon"></div><div class="fc_clist_online_wrap"><div class="fc_clist_online"></div></div><div class="fc_clist_filter"><input type="text" class="dark" id="fc_clist_filter" placeholder="Начните вводить имя.." onclick="event.cancelBubble = true;"></div></div></div></div><div class="fc_pointer_offset"><div class="fc_tab_pointer"></div></div></div></div><div class="scroll_fix_wrap _page_wrap" id="page_wrap"><div><div class="scroll_fix" style="width: 1348px;">
+  
+
+  <div id="page_header_cont" class="page_header_cont">
+    <div class="back"></div>
+    <div id="page_header_wrap" class="page_header_wrap" style="width: 1348px; margin-left: 0px;">
+      <a class="top_back_link" href="" id="top_back_link" onclick="if (nav.go(this, event, {back: true}) === false) { showBackLink(); return false; }" style="max-width: 1313px;"></a>
+      <div id="page_header" class="p_head p_head_l0" style="width: 960px">
+        <div class="content">
+          <div id="top_nav" class="head_nav">
+  <div class="head_nav_item fl_l"><a class="top_home_link fl_l" href="https://vk.com/feed" aria-label="На главную" accesskey="1"><div class="top_home_logo"></div></a></div>
+  <div class="head_nav_item fl_l"><div id="ts_wrap" class="ts_wrap" onmouseover="TopSearch.initFriendsList();">
+  <input name="disable-autofill" style="display: none;">
+  <div class="input_back_wrap no_select"><div class="input_back" style="margin: 7px 0px 7px 8px; padding: 6px 6px 6px 19px;"><div class="input_back_content" style="width: 210px;"></div></div></div><input type="text" onmousedown="event.cancelBubble = true;" ontouchstart="event.cancelBubble = true;" class="text ts_input" id="ts_input" autocomplete="off" name="disable-autofill" aria-label="Поиск">
+</div></div>
+  <div class="head_nav_item fl_l head_nav_btns"><a id="top_notify_btn" class="top_nav_btn" href="https://vk.com/feed?section=notifications" onmouseover="TopNotifier.preload()" onmousedown="return TopNotifier.onBellMouseDown(event);" onclick="return TopNotifier.onBellClick(event);" aria-haspopup="true" accesskey="2">
+  <span class="blind_label">Уведомления</span>
+  <div class="top_nav_btn_icon"></div>
+  <div id="top_notify_count" class="top_notify_count">0</div>
+</a><div id="top_audio_layer_place" class="top_audio_layer_place"></div><div id="top_audio_btn_group" class="top_nav_btn_audio_group" style="">
+  <a id="top_audio" class="top_nav_btn _top_nav_audio_btn" href="https://vk.com/music" onmouseover="AudioLayer.prepare()" onmousedown="" onclick="return checkEvent(event);" aria-label="Аудиоплеер" aria-haspopup="true" accesskey="3">
+    <span class="blind_label">Аудиоплеер</span>
+    <div class="top_nav_btn_icon"></div>
+  </a>
+</div></div>
+  <div class="head_nav_item fl_r"><a id="top_profile_link" class="top_nav_link top_profile_link" href="https://vk.com/id519561453" onclick="return (checkKeyboardEvent(event) ? TopMenu.clicked : checkEvent)(event);" aria-label="Настройки страницы" aria-haspopup="true" accesskey="4">
+  <span class="blind_label">Настройки страницы</span>
+  <div class="top_profile_name">Andrey</div>
+  <img class="top_profile_img" src="API_%D0%A0%D0%B5%D0%B4%D0%B0%D0%BA%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%BF%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F%20-%20%D0%A1%D1%82%D0%B0%D1%82%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0%20%D0%BB%D1%83%D1%87%D1%88%D0%B8%D1%85%20%D0%BF%D0%BE%D1%81%D1%82%D0%BE%D0%B2_files/camera_50.png" alt="Andrey">
+  <div class="top_profile_arrow"></div>
+</a><div id="top_profile_menu" class="top_profile_menu--has-vkconnect" ontouchstart="event.cancelBubble = true;" onmousedown="event.cancelBubble = true;">
+      <a class="top_profile_vkconnect_row" id="top_vkconnect_link" href="https://connect.vk.com/account/" target="_blank" style="">
+      <img class="top_profile_vkconnect_img" src="API_%D0%A0%D0%B5%D0%B4%D0%B0%D0%BA%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%BF%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F%20-%20%D0%A1%D1%82%D0%B0%D1%82%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0%20%D0%BB%D1%83%D1%87%D1%88%D0%B8%D1%85%20%D0%BF%D0%BE%D1%81%D1%82%D0%BE%D0%B2_files/camera_50.png" alt="Andrey Maslennikov">
+      <div class="top_profile_vkconnect_right">
+        <div class="top_profile_vkconnect_name">Andrey Maslennikov</div>
+        <div class="top_profile_vkconnect_descr">Перейти в VK Connect</div>
+      </div>
+    </a>
+    <div class="top_profile_sep" style=""></div>
+  <a class="top_profile_mrow" id="top_settings_link" href="https://vk.com/settings" onclick="return TopMenu.select(this, event);" style="">Настройки</a>
+  <a class="top_profile_mrow" id="top_support_link" href="https://vk.com/support?act=home" onclick="return TopMenu.select(this, event);">Помощь</a>
+  <div class="top_profile_sep" style=""></div>
+  
+  <a class="top_profile_mrow" id="top_logout_link" href="https://login.vk.com/?act=logout&amp;hash=120580e54d6abf352d&amp;reason=tn&amp;_origin=https://vk.com" onclick="if (checkEvent(event) === false) { window.AudioPlayer &amp;&amp; AudioPlayer.clearAllCacheKeys(); window.Notifier &amp;&amp; Notifier.lcSend('logged_off'); location.href = this.href; return cancelEvent(event); }">Выйти</a>
+</div></div>
+  <div class="head_nav_item_player"><div class="top_audio_player" id="top_audio_player">
+  <button class="top_audio_player_btn top_audio_player_prev" accesskey="j"><div class="blind_label">Предыдущая аудиозапись</div><div class="top_audio_player_btn_icon"></div></button>
+  <button class="top_audio_player_btn top_audio_player_play _top_audio_player_play" accesskey="k"><div class="blind_label _top_audio_player_play_blind_label">Воспроизвести</div><div class="top_audio_player_btn_icon"></div></button>
+  <button class="top_audio_player_btn top_audio_player_next" accesskey="l"><div class="blind_label">Следующая аудиозапись</div><div class="top_audio_player_btn_icon"></div></button>
+  <div class="top_audio_player_title_wrap"><div class="top_audio_player_title"></div></div>
+</div></div>
+</div>
+<div id="ts_cont_wrap" class="ts_cont_wrap" ontouchstart="event.cancelBubble = true;" onmousedown="event.cancelBubble = true;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div id="page_layout" style="width: 960px;">
+    <div id="side_bar" class="side_bar fl_l sticky_top" style="display: none; top: 0px;">
+      <div id="side_bar_inner" class="side_bar_inner">
+        <nav>
+  <ol>
+    <li id="l_pr" class=""><a href="https://vk.com/id519561453" onclick="return nav.go(this, event, {noback: true, params: {_ref: 'left_nav'}});" class="left_row">
+    <span class="left_fixer">
+      <span class="left_count_wrap fl_r left_void"><span class="inl_bl left_count_sign">0</span></span>
+      <span class="left_icon fl_l"></span>
+      <span class="left_label inl_bl">Моя страница</span>
+    </span>
+  </a>
+  <div class="left_settings" onclick="menuSettings(0)">
+  <div class="left_settings_inner"></div>
+</div>
+</li><li id="l_nwsf" class=""><a href="https://vk.com/feed" onclick="return nav.go(this, event, {noback: true, params: {_ref: 'left_nav'}});" class="left_row">
+    <span class="left_fixer">
+      <span class="left_count_wrap fl_r left_void"><span class="inl_bl left_count_sign">0</span></span>
+      <span class="left_icon fl_l"></span>
+      <span class="left_label inl_bl">Новости</span>
+    </span>
+  </a>
+  <div class="left_settings" onclick="menuSettings(0)">
+  <div class="left_settings_inner"></div>
+</div>
+</li><li id="l_msg" class=""><a href="https://vk.com/im" onclick="return nav.go(this, event, {noback: true, params: {_ref: 'left_nav'}});" class="left_row">
+    <span class="left_fixer">
+      <span class="left_count_wrap fl_r left_void" style=""><span class="inl_bl left_count_sign"></span></span>
+      <span class="left_icon fl_l"></span>
+      <span class="left_label inl_bl">Мессенджер</span>
+    </span>
+  </a>
+  <div class="left_settings" onclick="menuSettings(0)">
+  <div class="left_settings_inner"></div>
+</div>
+</li><li id="l_fr" class=""><a href="https://vk.com/friends" onclick="return nav.go(this, event, {noback: true, params: {_ref: 'left_nav'}});" class="left_row">
+    <span class="left_fixer">
+      <object type="internal/link"><a href="https://vk.com/friends?section=requests" onclick="nav.link &amp;&amp; nav.link('/friends?section=requests', event); cancelEvent(event);" class="left_count_wrap fl_r left_void left_count_wrap_hovered"><span class="inl_bl left_count_sign">0</span></a></object>
+      <span class="left_icon fl_l"></span>
+      <span class="left_label inl_bl">Друзья</span>
+    </span>
+  </a>
+  <div class="left_settings" onclick="menuSettings(0)">
+  <div class="left_settings_inner"></div>
+</div>
+</li><li id="l_gr" class=""><a href="https://vk.com/groups" onclick="return nav.go(this, event, {noback: true, params: {_ref: 'left_nav'}});" class="left_row">
+    <span class="left_fixer">
+      <span class="left_count_wrap fl_r left_void"><span class="inl_bl left_count_sign">0</span></span>
+      <span class="left_icon fl_l"></span>
+      <span class="left_label inl_bl">Сообщества</span>
+    </span>
+  </a>
+  <div class="left_settings" onclick="menuSettings(0)">
+  <div class="left_settings_inner"></div>
+</div>
+</li><li id="l_ph" class=""><a href="https://vk.com/albums519561453" onclick="return nav.go(this, event, {noback: true, params: {_ref: 'left_nav'}});" class="left_row">
+    <span class="left_fixer">
+      <span class="left_count_wrap fl_r left_void"><span class="inl_bl left_count_sign">0</span></span>
+      <span class="left_icon fl_l"></span>
+      <span class="left_label inl_bl">Фотографии</span>
+    </span>
+  </a>
+  <div class="left_settings" onclick="menuSettings(0)">
+  <div class="left_settings_inner"></div>
+</div>
+</li><li id="l_aud" class=""><a href="https://vk.com/audios519561453" onclick="return nav.go(this, event, {noback: true, params: {_ref: 'left_nav'}});" class="left_row">
+    <span class="left_fixer">
+      <span class="left_count_wrap fl_r left_void"><span class="inl_bl left_count_sign">0</span></span>
+      <span class="left_icon fl_l"></span>
+      <span class="left_label inl_bl">Музыка</span>
+    </span>
+  </a>
+  <div class="left_settings" onclick="menuSettings(0)">
+  <div class="left_settings_inner"></div>
+</div>
+</li><li id="l_vid" class=""><a href="https://vk.com/video" onclick="return nav.go(this, event, {noback: true, params: {_ref: 'left_nav'}});" class="left_row">
+    <span class="left_fixer">
+      <span class="left_count_wrap fl_r left_void"><span class="inl_bl left_count_sign">0</span></span>
+      <span class="left_icon fl_l"></span>
+      <span class="left_label inl_bl">Видео</span>
+    </span>
+  </a>
+  <div class="left_settings" onclick="menuSettings(0)">
+  <div class="left_settings_inner"></div>
+</div>
+</li><li id="l_svd" class=""><a href="https://vk.com/clips" onclick="return nav.go(this, event, {noback: true, params: {_ref: 'left_nav'}});" class="left_row">
+    <span class="left_fixer">
+      <span class="left_count_wrap fl_r left_void"><span class="inl_bl left_count_sign">0</span></span>
+      <span class="left_icon fl_l"></span>
+      <span class="left_label inl_bl">Клипы</span>
+    </span>
+  </a>
+  <div class="left_settings" onclick="menuSettings(0)">
+  <div class="left_settings_inner"></div>
+</div>
+</li><li id="l_ap" class=""><a href="https://vk.com/apps" onclick="return nav.go(this, event, {noback: true, params: {_ref: 'left_nav'}});" class="left_row">
+    <span class="left_fixer">
+      <object type="internal/link"><a href="https://vk.com/apps?act=profile&amp;ref=left_menu" onclick="nav.link &amp;&amp; nav.link('/apps?act=profile&amp;ref=left_menu', event); cancelEvent(event);" class="left_count_wrap fl_r left_void left_count_wrap_hovered"><span class="inl_bl left_count_sign">0</span></a></object>
+      <span class="left_icon fl_l"></span>
+      <span class="left_label inl_bl">Игры</span>
+    </span>
+  </a>
+  <div class="left_settings" onclick="menuSettings(0)">
+  <div class="left_settings_inner"></div>
+</div>
+</li><div class="more_div l_main"></div><li id="l_vkp" class=""><a href="https://vk.com/vkpay" onclick="return nav.go(this, event, {noback: true, params: {_ref: 'left_nav'}});" class="left_row">
+    <span class="left_fixer">
+      <span class="left_count_wrap fl_r left_void"><span class="inl_bl left_count_sign">0</span></span>
+      <span class="left_icon fl_l"></span>
+      <span class="left_label inl_bl">VK Pay</span>
+    </span>
+  </a>
+  <div class="left_settings" onclick="menuSettings(0)">
+  <div class="left_settings_inner"></div>
+</div>
+</li><li id="l_job" class=""><a href="https://vk.com/worki" onclick="return nav.go(this, event, {noback: true, params: {_ref: 'left_nav'}});" class="left_row">
+    <span class="left_fixer">
+      <span class="left_count_wrap fl_r left_void"><span class="inl_bl left_count_sign">0</span></span>
+      <span class="left_icon fl_l"></span>
+      <span class="left_label inl_bl">Работа</span>
+    </span>
+  </a>
+  <div class="left_settings" onclick="menuSettings(0)">
+  <div class="left_settings_inner"></div>
+</div>
+</li><div class="more_div"></div><li id="l_market_orders" class="unshown"><a href="https://vk.com/orders" onclick="return nav.go(this, event, {noback: true, params: {_ref: 'left_nav'}});" class="left_row">
+    <span class="left_fixer">
+      <span class="left_count_wrap fl_r left_void"><span class="inl_bl left_count_sign">0</span></span>
+      <span class="left_icon fl_l"></span>
+      <span class="left_label inl_bl">Заказы</span>
+    </span>
+  </a>
+  <div class="left_settings" onclick="menuSettings(0)">
+  <div class="left_settings_inner"></div>
+</div>
+</li><li id="l_mk" class=""><a href="https://vk.com/market" onclick="return nav.go(this, event, {noback: true, params: {_ref: 'left_nav'}});" class="left_row">
+    <span class="left_fixer">
+      <span class="left_count_wrap fl_r left_void"><span class="inl_bl left_count_sign">0</span></span>
+      <span class="left_icon fl_l"></span>
+      <span class="left_label inl_bl">Маркет</span>
+    </span>
+  </a>
+  <div class="left_settings" onclick="menuSettings(0)">
+  <div class="left_settings_inner"></div>
+</div>
+</li><div class="more_div"></div><li id="l_covid19" class=""><a href="https://vk.com/covid19#utm_source=vk&amp;utm_medium=cpc&amp;utm_campaign=web_left_nav" onclick="return ((this.parentNode.classList.remove('AppLeftMenuWithNotify'), typeof window.ajax !== 'undefined' &amp;&amp; window.ajax.post('/al_stats.php?act=a_covid19_menu_item_click')), nav.go(this, event, {noback: true, params: {_ref: 'left_nav'}}));" class="left_row">
+    <span class="left_fixer">
+      <span class="left_count_wrap fl_r left_void"><span class="inl_bl left_count_sign">0</span></span>
+      <span class="left_icon fl_l"></span>
+      <span class="left_label inl_bl">Коронавирус</span>
+    </span>
+  </a>
+  <div class="left_settings" onclick="menuSettings(0)">
+  <div class="left_settings_inner"></div>
+</div>
+</li>
+  </ol>
+</nav>
+<div id="left_blocks"></div><div id="ads_left" class="ads_left_empty" style="overflow: visible;"><div style="display: block; position: static; left: 0px; top: 0px; opacity: 0;"></div></div><div class="left_menu_nav_wrap" onclick="window.logLeftMenuClicks &amp;&amp; logLeftMenuClicks(event)">
+  <a class="left_menu_nav" href="https://vk.com/blog" data-stats-key="blog">Блог</a> <a class="left_menu_nav" href="https://vk.com/dev" data-stats-key="dev">Разработчикам</a> <a class="left_menu_nav" href="https://vk.com/biz" data-stats-key="biz">Реклама</a> <div class="ui_actions_menu_wrap _ui_menu_wrap " onmouseover="uiActionsMenu.show(this, event, {autopos: true, dy: 6});" onmouseout="uiActionsMenu.hide(this);">
+  <div class="ui_actions_menu_icons" tabindex="0" aria-label="Действия" role="button" onclick="uiActionsMenu.keyToggle(this, event);"> <span class="blind_label">Действия</span> <a class="left_menu_nav left_menu_more" id="left_menu_more">Ещё</a> </div>
+  <div class="ui_actions_menu _ui_menu "><a class="ui_actions_menu_item" href="https://vk.com/about" data-stats-key="about">О ВКонтакте</a><a class="ui_actions_menu_item" href="https://vk.com/jobs" data-stats-key="jobs">Вакансии</a><a class="ui_actions_menu_item" href="https://vk.com/legal" data-stats-key="legal">Правовая информация</a><a class="ui_actions_menu_item" href="https://vk.com/data_protection" data-stats-key="data_protection">Защита данных</a><a class="ui_actions_menu_item" href="https://vk.com/safety" data-stats-key="safety">Центр безопасности</a><a class="ui_actions_menu_item" onclick="window.logLeftMenuClicks &amp;&amp; logLeftMenuClicks(event, 'language'); showBox('lang.php', {act: 'lang_dialog'}, {params: {bodyStyle: 'padding: 0'}, noreload: true})" tabindex="0" role="link">Язык: русский</a></div>
+</div>
+</div>
+      </div>
+    </div>
+
+    <div id="page_body" class="fl_r " style="width: 960px;">
+      
+      <div id="wrap_between"></div>
+      <div id="wrap3"><div id="dev_page_wrap3">
+  <div id="dev_top_nav_wrap" style="width: 1348px; margin-left: 0px;">
+    <div id="dev_top_nav" class="clear_fix" style="width: 960px">
+      <div class="dev_home_wrap fl_l">
+        <a class="dev_home_link fl_l" href="https://vk.com/dev">Developers</a>
+      </div>
+      <a id="dev_top_products" class="dev_top_link  fl_l" href="https://vk.com/dev/products">Продукты</a>
+      <a id="dev_top_manuals" class="dev_top_link  fl_l" href="https://vk.com/dev/manuals">Документация</a>
+      <a id="dev_top_apps" class="dev_top_link sel fl_l" href="https://vk.com/apps?act=manage">Мои приложения</a>
+      <a id="dev_top_help" class="dev_top_link  fl_l" href="https://vk.com/dev/help">Поддержка</a>
+      <div class="dev_top_profile fl_r">
+  <a class="dev_top_profile_link" href="https://vk.com/id519561453"><img src="API_%D0%A0%D0%B5%D0%B4%D0%B0%D0%BA%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%BF%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F%20-%20%D0%A1%D1%82%D0%B0%D1%82%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0%20%D0%BB%D1%83%D1%87%D1%88%D0%B8%D1%85%20%D0%BF%D0%BE%D1%81%D1%82%D0%BE%D0%B2_files/camera_50.png"></a>
+</div>
+      <div class="dev_top_input_wrap fl_r">
+        <div class="input_back_wrap no_select"><div class="input_back" style="margin: 7px 0px 7px 8px; padding: 6px 6px 6px 19px;"><div class="input_back_content" style="width: 150px;">Поиск</div></div></div><input class="dev_top_input text" type="text" id="dev_top_input" autocomplete="off" onkeydown="return Dev.onSearchChange(this, event);" onblur="Dev.onSearchBlur()" onfocus="return Dev.onSearchChange(this, event);">
+        <div id="dev_search_suggest">
+          <div class="fc_scrollbar_cont scrollbar_cont" style="margin-top: 0px; margin-left: 0px; height: 0px; right: 0px; left: auto; pointer-events: none;"><div class="fc_scrollbar_inner scrollbar_inner" style="display: none;"></div></div><div id="dev_search_suggest_list" style="overflow: hidden;">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="fl_l dev_left_nav_wrap" style="top: 0px; margin-left: 0px; position: relative;">
+  <div id="dev_left_nav" class="dev_nav apps_edit">
+    <div class="apps_edit_nav_header clear_fix">
+  <div class="apps_edit_nav_img_wrap fl_l">
+    <img class="apps_edit_nav_img" src="API_%D0%A0%D0%B5%D0%B4%D0%B0%D0%BA%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5%20%D0%BF%D1%80%D0%B8%D0%BB%D0%BE%D0%B6%D0%B5%D0%BD%D0%B8%D1%8F%20-%20%D0%A1%D1%82%D0%B0%D1%82%D0%B8%D1%81%D1%82%D0%B8%D0%BA%D0%B0%20%D0%BB%D1%83%D1%87%D1%88%D0%B8%D1%85%20%D0%BF%D0%BE%D1%81%D1%82%D0%BE%D0%B2_files/dquestion_i.png">
+  </div>
+  <div class="apps_edit_nav_label fl_l">
+    Статистика лучших постов
+  </div>
+</div><a id="apps_nav_info" class="nav" href="https://vk.com/editapp?section=info&amp;id=7617404" style="" onclick="return AppsEdit.switchTab('info', event);">Информация</a><a id="apps_nav_translations" class="nav " href="https://vk.com/editapp?section=translations&amp;id=7617404" style="display: none;" onclick="return AppsEdit.switchTab('translations', event);">Локализация</a><a id="apps_nav_options" class="nav nav_selected" href="https://vk.com/editapp?section=options&amp;id=7617404" style="" onclick="return AppsEdit.switchTab('options', event);">Настройки</a><a id="apps_nav_functions" class="nav " href="https://vk.com/editapp?section=functions&amp;id=7617404" style="" onclick="return AppsEdit.switchTab('functions', event);">Хранимые процедуры</a><a id="apps_nav_stats" class="nav " href="https://vk.com/stats?aid=7617404" style="" onclick="return AppsEdit.switchTab('stats', event);">Статистика</a><a id="apps_nav_payments" class="nav " href="https://vk.com/editapp?section=payments&amp;id=7617404" style="display: none;" onclick="return AppsEdit.switchTab('payments', event);">Платежи</a><a id="apps_nav_admins" class="nav " href="https://vk.com/editapp?section=admins&amp;id=7617404" style="" onclick="return AppsEdit.switchTab('admins', event);">Руководство</a><a id="apps_nav_activities" class="nav " href="https://vk.com/editapp?section=activity&amp;id=7617404" style="display: none" onclick="return AppsEdit.switchTab('activities', event);">Миссии</a><a id="apps_nav_ads" class="nav " href="https://vk.com/editapp?section=ads&amp;id=7617404" style="display: none;" onclick="return AppsEdit.switchTab('ads', event);">Реклама</a><a id="apps_nav_support" class="nav " href="https://vk.com/support?act=new_app&amp;app_id=7617404" style="" onclick="return AppsEdit.switchTab('support', event);">Помощь</a>
+    <div id="dev_left_nav_mark" style="height: 32px; top: 101px; overflow: visible; display: block;"></div>
+  </div>
+  <div id="dev_section_methods"></div>
+  
+</div>
+  <div id="dev_page_wrap2" class="fl_r">
+    <div id="dev_page_wrap1" style="min-height: 0px;">
+      <div id="dev_page_wrap">
+        <div id="app_edit">
+
+<div class="app_edit_main">
+  <div id="app_edit_wrap"><div id="app_edit_cont">
+  <div class="dev_page_block" style="min-height: 0px;">
+  <div class="app_edit_block_header clear_fix">
+    <div class="label fl_l">Настройки</div>
+  </div>
+  <div class="apps_edit_info_wrap apps_edit_info_wrap_options">
+    <div id="app_edit_warning_wrap"></div>
+    <div id="app_edit_error_wrap" class="apps_edit_error_wrap"><div id="app_edit_error" class="apps_edit_error"></div>
+  </div>
+  <div id="apps_options_saved" class="apps_edit_success"></div>
+  
+  <table class="apps_edit_table">
+    <tbody><tr><td class="label ta_r">ID приложения</td><td class="apps_edit_t">
+      <b>7617404</b>
+      <input type="hidden" id="app_id" value="7617404">
+      <input type="hidden" id="app_hash" value="ff51962358514be006">
+    </td></tr>
+    <tr><td class="label ta_r">Защищённый ключ</td><td class="apps_edit" id="secret_key_edit">
+    <table class="apps_edit_embedded_control_container">
+  <tbody><tr>
+    <td><input type="text" onclick="this.select();" class="apps_edit_input_borderless" id="app_secret2" value="8aQWfqo70dPtNEVZPfxc" readonly="readonly"></td>
+    <td><input type="hidden" id="secret_key_hash" value="3dc2f68f5d5aa308fa" readonly="readonly"></td>
+    <td><button class="apps_edit_embedded_update_button" onclick="AppsEdit.generateSecretKey('7617404', 'f4ddd2c6bca0d200cb', '2eb85b52c8ac45a735');" onmouseover="AppsEdit.showTooltipForField(this, ge('app_secret2'), 'Сгенерировать новый защищённый ключ. Это также приведёт к отключению существующего сервисного ключа доступа и генерации нового.')"></button></td>
+  </tr>
+</tbody></table>
+    </td></tr>
+    <tr>
+  <td class="label ta_r">Сервисный ключ доступа</td>
+  <td class="apps_edit">
+    <table class="apps_edit_embedded_control_container">
+      <tbody><tr>
+        <td><input type="text" id="service_token" class="apps_edit_input_borderless" value="dbbcf4e9dbbcf4e9dbbcf4e9b1dbc8cf95ddbbcdbbcf4e984c4272ec55e44c1f3188ce7" onclick="this.select()" readonly="readonly"></td>
+        <td><input type="hidden" id="service_token_hash" value="e1a648d764bea99695" readonly="readonly"></td>
+        <td><button id="update_service_token_button" class="apps_edit_embedded_update_button" onclick="AppsEdit.generateServiceToken('7617404', '2eb85b52c8ac45a735');" onmouseover="AppsEdit.showTooltipForField(this, ge('service_token'), 'Сгенерировать новый сервисный ключ')"></button></td>
+      </tr>
+    </tbody></table>
+  </td>
+</tr>
+  </tbody></table>
+  <div style="">
+  <table class="apps_edit_table">
+  <tbody><tr><td class="label ta_r">Состояние</td><td><div class="box_dark apps_edit_dd"><div id="container8" class="selector_container dropdown_container big limited_height" style="width: 278px;"><table class="selector_table" cellspacing="0" cellpadding="0">       <tbody><tr>         <td class="selector">           <div class="placeholder_wrap1" style="display: none;">             <div class="placeholder_wrap2">               <div class="placeholder_content" aria-hidden="true" style="color: rgb(124, 127, 130);"></div>               <div class="placeholder_cover"></div>             </div>           </div><div class="selected_items_wrap"><div class="scroll_fader_top"></div>            <span class="selected_items"></span>            <div class="scroll_fader_bottom"></div></div>            <input type="text" class="selector_input selected" readonly="true" style="color: rgb(34, 34, 34); width: 238px;" value="Приложение отключено">            <input type="hidden" name="selectedItems" id="selectedItems" value="-1" class="resultField">            <input type="hidden" name="selectedItems_custom" id="selectedItems_custom" value="" class="customField">          </td><td id="dropdown8" class="selector_dropdown" role="button" aria-hidden="true" style="width: 26px;">&nbsp;</td>        </tr>     </tbody></table>    <div class="results_container">      <div class="result_list" style="width: 278px; height: auto; bottom: auto; display: none; visibility: visible;"><ul id="list_options_container_8" style="position: relative; visibility: visible;"><li onmousemove="Select.itemMouseMove(8, 0, this)" onmousedown="Select.itemMouseDown(8, 0, this)" onclick="Select.itemMouseDown(8, 0, this)" val="-1" title="Приложение отключено" class="first" role="option" aria-selected="false" tabindex="-1" id="option_list_options_container_8_1">Приложение отключено</li><li onmousemove="Select.itemMouseMove(8, 1, this)" onmousedown="Select.itemMouseDown(8, 1, this)" onclick="Select.itemMouseDown(8, 1, this)" val="1" title="Приложение включено и видно всем" class="last " role="option" aria-selected="false" tabindex="-1" id="option_list_options_container_8_2">Приложение включено и видно всем</li></ul></div>    </div></div></div></td></tr>
+
+  <tr style=""><td class="label ta_r">Первый запрос к API</td><td><textarea class="text" id="app_first_request"></textarea></td></tr>
+    <tr><td class="label ta_r">Установка приложения</td><td class="apps_edit_t"><span class="privacy_edit_wrap"><a id="privacy_edit_install" onclick="Privacy.show(this, event, 'install')">Не требуется</a></span></td></tr>
+  </tbody></table>
+    <table id="apps_edit_install_require" class="apps_edit_table" style="display: none;">
+  <tbody><tr><td class="label ta_r">Права доступа</td><td class="apps_edit_t"><span class="privacy_edit_wrap"><a id="privacy_edit_require" onclick="Privacy.show(this, event, 'require')">Не запрашивать доступ</a></span><span></span></td></tr>
+  </tbody></table>
+  <table class="apps_edit_table" style="">
+  <tbody><tr><td class="label ta_r">Open API</td><td class="apps_edit_t"><span class="privacy_edit_wrap"><a id="privacy_edit_openapi" onclick="Privacy.show(this, event, 'openapi')">Отключён</a></span></td></tr>
+  </tbody></table>
+  </div>
+
+  <table class="apps_edit_table" style="">
+  <tbody><tr><td class="label ta_r">Push-уведомления</td><td class="apps_edit_t">
+  <span class="privacy_edit_wrap"><a id="privacy_edit_push" onclick="Privacy.show(this, event, 'push')">Не подключены</a></span>
+  </td></tr>
+  </tbody></table>
+
+  <div id="apps_edit_push_cert" style="display: none;">
+    <table class="apps_edit_table">
+      <tbody><tr style="display: none">
+        <td class="label ta_r">
+          App Bundle ID:
+        </td>
+        <td class="apps_edit_desc">
+          <input id="app_push_cert_bundle_id" type="text" class="apps_edit_input text">
+        </td>
+      </tr>
+      <tr>
+        <td class="label ta_r">Сертификат:</td>
+        <td class="apps_edit_t" id="apps_cert_label">
+          <a onclick="AppsEdit.certUploadBox(this, 'prod');">Загрузить сертификат</a>
+        </td>
+      </tr>
+      <tr style="">
+        <td class="label ta_r">Sandbox сертификат:</td>
+        <td class="apps_edit_t" id="apps_dev_cert_label">
+          <a onclick="AppsEdit.certUploadBox(this, 'dev');">Загрузить сертификат</a>
+        </td>
+      </tr>
+    </tbody></table>
+  </div>
+
+  <div id="apps_edit_push_mpns" style="display: none;">
+    <table class="apps_edit_table">
+      <tbody><tr><td class="label ta_r">Сертификат (не обязательно):</td><td class="apps_edit_t" id="apps_cert_label">
+        <a onclick="AppsEdit.certUploadBox(this, 'prod');">Загрузить сертификат</a>
+      </td></tr>
+    </tbody></table>
+  </div>
+
+  <div id="apps_edit_push_login" style="display: none;">
+    <table class="apps_edit_table">
+      <tbody><tr><td class="label ta_r">Логин:</td><td class="apps_edit_desc">
+        <input id="apps_push_login" type="text" class="text apps_edit_input">
+      </td></tr>
+      <tr><td class="label ta_r">Пароль:</td><td class="apps_edit_desc">
+        <input id="apps_push_pass" type="password" class="text apps_edit_input" value="">
+      </td></tr>
+    </tbody></table>
+  </div>
+
+  <div id="apps_edit_push_sid_secret" style="display: none;">
+    <table class="apps_edit_table">
+      <tbody><tr><td class="label ta_r">SID:</td><td class="apps_edit_desc">
+        <input id="apps_push_sid" type="text" class="text apps_edit_input">
+      </td></tr>
+      <tr><td class="label ta_r">Client Secret:</td><td class="apps_edit_desc">
+        <input id="apps_push_secret" type="password" class="text apps_edit_input" value="">
+      </td></tr>
+    </tbody></table>
+  </div>
+
+  <div id="apps_edit_push_api_key" style="display: none;">
+    <table class="apps_edit_table">
+      <tbody><tr><td class="label ta_r">Project Id:</td><td class="apps_edit_desc">
+        <input id="apps_push_sender_id" type="text" class="text apps_edit_input">
+      </td></tr>
+      <tr><td class="label ta_r">Simple API Key:</td><td class="apps_edit_desc">
+        <input id="apps_push_api_key" type="password" class="text apps_edit_input" value="">
+      </td></tr>
+    </tbody></table>
+  </div>
+
+  <div id="apps_edit_openapi" style="display: none">
+    <div class="apps_edit_header">Open API</div>
+    <table class="apps_edit_table">
+      <tbody><tr><td class="label ta_r">Адрес сайта:</td><td class="apps_edit_desc">
+          <input id="app_site_url" type="text" class="text apps_edit_input" placeholder="http://yoursite.com">
+      </td></tr>
+      <tr style="display: none;"><td class="label ta_r">Тематика сайта:</td><td class="apps_edit_desc">
+          <div id="container9" class="selector_container big limited_height" style="width: 278px;"><table class="selector_table" cellspacing="0" cellpadding="0">       <tbody><tr>         <td class="selector">           <div class="placeholder_wrap1">             <div class="placeholder_wrap2">               <div class="placeholder_content" aria-hidden="true" style="color: rgb(124, 127, 130);">Выберите тематику</div>               <div class="placeholder_cover"></div>             </div>           </div><div class="selected_items_wrap"><div class="scroll_fader_top"></div>            <span class="selected_items"></span>            <div class="scroll_fader_bottom"></div></div>            <input type="text" class="selector_input" style="color: rgb(34, 34, 34); width: 241px;">            <input type="hidden" name="selectedItems" id="selectedItems" value="" class="resultField">            <input type="hidden" name="selectedItems_custom" id="selectedItems_custom" value="" class="customField">          </td><td id="dropdown9" class="selector_dropdown" role="button" aria-hidden="true" style="width: 26px;">&nbsp;</td>        </tr>     </tbody></table>    <div class="results_container">      <div class="result_list dividing_line" style="display: none; width: 278px;"><ul id="list_options_container_9"></ul></div>    </div></div>
+      </td></tr>
+      <tr><td class="label ta_r">Базовый домен:</td><td id="apps_edit_domain_cont" class="apps_edit_desc" onmouseover="AppsEdit.showHint(this, false, [-296, 0, -67]);" onmouseout="AppsEdit.hideHint(this);">
+          <div class="tdd_wrap" style="width: 278px;"><div class="tdd_control clear_fix"><div class="tdd_taglist"></div><div class="tdd_input_cont fl_l"><input class="tdd_input" placeholder="" style="width: 266px;"></div></div><div class="tdd_suggest" style="width: 276px"><div class="tdd_scrollbar_cont scrollbar_cont" style="margin-top: 0px; margin-left: 0px; height: 0px; right: 0px; left: auto; pointer-events: none;"><div class="tdd_scrollbar_inner scrollbar_inner" style="display: none;"></div></div><div class="tdd_suggest_items" style="overflow: hidden;"></div><div class="tdd_bottom1" style="width: 276px"></div><div class="tdd_bottom2" style="width: 276px"></div></div></div><input id="app_base_domain" type="text" class="text apps_edit_input" placeholder="yoursite.com" style="display: none;">
+      </td></tr>
+      
+    </tbody></table>
+  </div>
+
+  <div id="apps_edit_container_opts" style="display: none;">
+    <div class="apps_edit_header" style="display: none;">Настройки контейнера</div>
+    <table id="app_type" class="apps_edit_table app_type" style="display: none;">
+    <tbody><tr><td class="label ta_r">Тип приложения:</td><td class="apps_edit_r">
+    <div id="app_type_1" class="radiobtn" onclick="cur.checkAppType(1);"><div></div>IFrame</div>
+    <div class="apps_edit_desc_abs">Позволяет запускать приложение через <a href="https://vk.com/dev/IFrame_apps">IFrame</a> с указанного Вами адреса.</div>
+    </td></tr>
+    <tr><td class="label ta_r"></td><td class="apps_edit_r">
+    <div id="app_type_0" class="radiobtn" onclick="cur.checkAppType(0);"><div></div>Flash</div>
+    <div class="apps_edit_desc_abs">Позволяет запускать SWF-файлы со страницы приложения.</div>
+    </td></tr>
+    </tbody></table>
+
+    <div id="apps_edit_iframe_options" style="display:none">
+    <table class="apps_edit_table" style="">
+      <tbody><tr id="apps_edit_iframe_secure">
+        <td class="label ta_r">Адрес IFrame</td>
+          <td>
+            <input class="text apps_edit_input" type="text" id="app_iframe_url" onblur="AppsEdit.onChangeIFrameUrl(this)" placeholder="https://example.com">
+          </td>
+       </tr>
+    </tbody></table>
+    
+    <table class="apps_edit_table" style="">
+      <tbody><tr>
+        <td class="label ta_r">Размер IFrame</td>
+        <td>
+          <input class="text text_small apps_edit_input" type="text" id="app_iframe_width" onchange="AppsEdit.checkSize(this, 630, 1000)" onpaste="AppsEdit.checkSize(this, 630, 1000)" value="607">
+          <span class="apps_edit_iframe_res">x</span>
+          <input class="text text_small apps_edit_input" type="text" id="app_iframe_height" onchange="AppsEdit.checkSize(this, 600, 4050)" onpaste="AppsEdit.checkSize(this, 600, 4050)" value="500">
+         </td>
+       </tr>
+    </tbody></table>
+</div>
+
+    <div id="apps_edit_dev_url_options" style="display: none;">
+      <table id="apps_edit_dev_ur" class="apps_edit_table app_type" style="">
+        <tbody><tr>
+          <td class="label">Режим разработки</td>
+          <td class="apps_edit_r checkbox-trigger">
+            <div class="checkbox" id="vk_app_dev_url_enabled" onclick="cur.checkDevLinkCheckbox(this);">
+              <div></div>
+              Включить
+            </div>
+          </td>
+        </tr>
+        <tr id="apps_edit_vk_app_dev_url" style="display:none;">
+          <td class="label">URL для разработки</td>
+          <td>
+            <input class="text apps_edit_input" type="text" id="vk_app_dev_url" onblur="AppsEdit.onChangeDevUrl(this)" onmouseover="AppsEdit.showHint(this, false, [-291, 0, -58]);" onmouseout="AppsEdit.hideHint(this);" placeholder="https://example.com">
+          </td>
+        </tr>
+      </tbody></table>
+    </div>
+
+    <table id="apps_edit_flash_options" class="apps_edit_table" style="display: none;">
+    <tbody><tr style="display: none;"><td class="label ta_r">Flash-контейнер:</td><td><div id="app_wrapper_hint" class="apps_edit_hint box_dark apps_edit_dd" onmouseover="AppsEdit.showHint(this);" onmouseout="AppsEdit.hideHint(this);"><div id="container6" class="selector_container dropdown_container big limited_height" style="width: 278px;"><table class="selector_table" cellspacing="0" cellpadding="0">       <tbody><tr>         <td class="selector">           <div class="placeholder_wrap1" style="display: none;">             <div class="placeholder_wrap2">               <div class="placeholder_content" aria-hidden="true" style="color: rgb(124, 127, 130);"></div>               <div class="placeholder_cover"></div>             </div>           </div><div class="selected_items_wrap"><div class="scroll_fader_top"></div>            <span class="selected_items"></span>            <div class="scroll_fader_bottom"></div></div>            <input type="text" class="selector_input selected" readonly="true" style="color: rgb(34, 34, 34); width: 241px;" value="Без использования контейнера">            <input type="hidden" name="selectedItems" id="selectedItems" value="0" class="resultField">            <input type="hidden" name="selectedItems_custom" id="selectedItems_custom" value="" class="customField">          </td><td id="dropdown6" class="selector_dropdown" role="button" aria-hidden="true" style="width: 26px;">&nbsp;</td>        </tr>     </tbody></table>    <div class="results_container">      <div class="result_list dividing_line" style="display: none; width: 278px;"><ul id="list_options_container_6"></ul></div>    </div></div></div></td></tr>
+    <tr style="display: none;"><td class="label ta_r">Flash-параметр wmode:</td><td><div id="apps_wmode_hint" class="apps_edit_hint box_dark apps_edit_dd" onmouseover="AppsEdit.showHint(this);" onmouseout="AppsEdit.hideHint(this);"><div id="container7" class="selector_container dropdown_container big limited_height" style="width: 278px;"><table class="selector_table" cellspacing="0" cellpadding="0">       <tbody><tr>         <td class="selector">           <div class="placeholder_wrap1" style="display: none;">             <div class="placeholder_wrap2">               <div class="placeholder_content" aria-hidden="true" style="color: rgb(124, 127, 130);"></div>               <div class="placeholder_cover"></div>             </div>           </div><div class="selected_items_wrap"><div class="scroll_fader_top"></div>            <span class="selected_items"></span>            <div class="scroll_fader_bottom"></div></div>            <input type="text" class="selector_input selected" readonly="true" style="color: rgb(34, 34, 34); width: 241px;" value="opaque — не перекрывает уведомления и окна">            <input type="hidden" name="selectedItems" id="selectedItems" value="0" class="resultField">            <input type="hidden" name="selectedItems_custom" id="selectedItems_custom" value="" class="customField">          </td><td id="dropdown7" class="selector_dropdown" role="button" aria-hidden="true" style="width: 26px;">&nbsp;</td>        </tr>     </tbody></table>    <div class="results_container">      <div class="result_list dividing_line" style="display: none; width: 278px;"><ul id="list_options_container_7"></ul></div>    </div></div></div></td></tr>
+    </tbody></table>
+  </div>
+
+  <div id="apps_edit_sdk" style="">
+  <div class="apps_edit_header">Настройки SDK</div>
+  <table class="apps_edit_table" id="apps_edit_sdk_list">
+    <tbody><tr><td class="label ta_r">App Bundle ID для iOS</td><td class="apps_edit_desc">
+    <input id="app_sdk_ios_bundle" type="text" class="text apps_edit_input">
+    </td></tr><tr><td class="label ta_r">App ID для iOS</td><td class="apps_edit_desc">
+    <input id="app_sdk_ios_id" type="text" class="text apps_edit_input">
+    </td></tr>
+    <tr><td class="label ta_r">Название пакета<br>для Android</td><td class="apps_edit_desc">
+    <input id="app_sdk_andr_pack" type="text" class="text apps_edit_input">
+    </td></tr>
+    
+    <tr><td class="label ta_r">Main activity для Android</td><td class="apps_edit_desc">
+    <input id="app_sdk_andr_mainact" type="text" class="text apps_edit_input">
+    </td></tr>
+    <tr class="apps_edit_fp_row"><td class="label ta_r">Отпечаток сертификата<br>для Android<br><div class="apps_edit_leftacts"><a onclick="cur.addFingerprint(this);">Добавить ещё</a></div></td><td><textarea class="text" id="app_sdk_andr_fingerprint_0"></textarea></td></tr>
+    <tr><td class="label ta_r">Windows App ID</td><td class="apps_edit_desc">
+    <input id="app_sdk_windows_id" type="text" class="text apps_edit_input">
+    </td></tr>
+  </tbody></table>
+</div>
+
+  <table id="apps_edit_save" class="apps_edit_table">
+  <tbody><tr><td class="label ta_r"></td><td class="apps_edit_info_save">
+  <button class="flat_button" id="app_save_btn" onclick="AppsEdit.saveOptions();">Сохранить изменения</button>
+  </td></tr>
+  </tbody></table>
+  </div>
+  </div>
+  
+</div>
+
+
+
+
+
+<div id="apps_edit_other_wrap" class="apps_edit_other dev_page_block" style="">
+  <div id="apps_edit_other_delete" style="">
+    <div class="app_edit_block_header clear_fix">
+      <div class="label fl_l">Удаление приложения</div>
+    </div>
+    <div class="apps_edit_info_wrap">
+      <div>Если Вы удалите это приложение, Вы уже не сможете его восстановить.</div>
+      <button class="apps_edit_delete_btn flat_button" onclick="AppsEdit.deleteApp();">Удалить приложение</button>
+    </div>
+  </div>
+</div></div>
+</div>
+</div>
+      </div>
+    </div>
+    <div class="dev_footer_wrap" id="dev_footer_wrap">
+  <div class="dev_footer">
+    <div class="dev_footer_copy fl_l">ВКонтакте © 2006–2020</div>
+    <div class="dev_footer_lang fl_r">Язык:<a class="footer_lang_link" onclick="showBox('lang.php', {act: 'lang_dialog'}, {params: {dark: true, bodyStyle: 'padding: 0px'}, noreload: true})">Русский</a></div>
+    <div class="dev_footer_links">
+      <a class="bnav_a" href="https://vk.com/about">О ВКонтакте</a>
+      <a class="bnav_a" href="https://vk.com/support?act=home" style="">Помощь</a>
+      <a class="bnav_a" href="https://vk.com/terms">Правила</a>
+      <a class="bnav_a" href="https://vk.com/ads" style="">Реклама</a>
+      
+      <a class="bnav_a" href="https://vk.com/dev">Разработчикам</a>
+      <a class="bnav_a" href="https://vk.com/jobs" style="">Вакансии</a>
+    </div>
+  </div>
+  <div class="dev_footer_bench clear">
+    
+  </div>
+</div>
+  </div>
+</div></div>
+    </div>
+
+    <div id="footer_wrap" class="footer_wrap footer_hidden" style="width: 725px;"></div>
+
+    <div class="clear"></div>
+  </div>
+</div></div><noscript><div style="position:absolute;left:-10000px;">
+<img src="//top-fwz1.mail.ru/counter?sign=24673680e0da4734656c757144e2f1ba98d06c83&id=2579437;pid=519561453;js=na" style="border:0;" height="1" width="1" />
+</div></noscript></div>
+  <div class="progress" id="global_prg"></div>
+
+  <script type="text/javascript">
+    if (parent && parent != window && (browser.msie || browser.opera || browser.mozilla || browser.chrome || browser.safari || browser.iphone)) {
+      document.getElementsByTagName('body')[0].innerHTML = '';
+    } else {
+      window.domReady && domReady();
+      updateMoney(0);
+initPageLayoutUI();
+if (browser.iphone || browser.ipad || browser.ipod) {
+  setStyle(bodyNode, {webkitTextSizeAdjust: 'none'});
+}TopMenu.init();
+initTopAudioPlayer();
+if (0) {
+  hide('support_link_td', 'top_support_link');
+}
+var ts_input = ge('ts_input');
+if (ts_input) {
+  placeholderSetup(ts_input, {back: false, reload: true, phColor: '#8fadc8'});
+}
+TopSearch.init();;window.shortCurrency && shortCurrency();
+window.zNav && setTimeout(zNav.pbind({}, {"queue":1}), 0);
+window.handlePageParams && handlePageParams({"id":519561453,"leftblocks":"","leftads":"","ads_can_show":"1","no_ads":1,"loc":"editapp?act=create","noleftmenu":1,"plain":1,"wrap_page":1,"width":960,"width_dec":0,"width_dec_footer":235,"top_home_link_class":"top_home_link fl_l","body_class":"firefox dev","counters":{"0":0,"1":0,"2":0,"3":1,"4":0,"5":"0","6":0,"7":-1,"8":0,"9":-1,"10":0,"11":-1,"12":-1,"13":0,"14":0,"15":0,"16":0,"19":0,"17":[],"18":0},"pvbig":0,"pvdark":1});addEvent(document, 'click', onDocumentClick);
+addLangKeys({"global_apps":"Приложения","global_friends":"Друзья","global_communities":"Сообщества","head_search_results":"Результаты поиска","global_chats":"Диалоги","global_show_all_results":"Показать все результаты","global_news_search_results":"Результаты поиска в новостях","global_emoji_cat_recent":"Часто используемые","global_emoji_cat_1":"Эмоции","global_emoji_cat_2":"Животные и растения","global_emoji_cat_3":"Жесты и люди","global_emoji_cat_4":"Еда и напитки","global_emoji_cat_5":"Спорт и активности","global_emoji_cat_6":"Путешествия и транспорт","global_emoji_cat_7":"Предметы","global_emoji_cat_8":"Символы","global_emoji_cat_9":"Флаги","stories_archive_privacy_info":"Истории в архиве видите только Вы","stories_remove_warning":"Вы действительно хотите удалить историю?<br>Отменить действие будет невозможно.","stories_remove_from_narrative_warning":"Вы действительно хотите удалить историю? <br>Она так же удалится из сюжета.","stories_narrative_remove_warning":"Вы действительно хотите удалить сюжет?<br>Отменить действие будет невозможно.","stories_remove_confirm":"Удалить","stories_answer_placeholder":"Ваше сообщение…","stories_answer_sent":"Сообщение отправлено","stories_blacklist_title":"Скрыты из историй","stories_settings":"Настройки","stories_add_blacklist_title":"Скрытие из историй","stories_add_blacklist_message":"Пользователь останется в друзьях, но истории не будут показываться в новостях.","stories_add_blacklist_button":"Скрыть из историй","stories_add_blacklist_message_group":"Вы останетесь подписчиком сообщества, но истории не будут показываться в новостях.","stories_remove_from_blacklist_button":"Вернуть в истории","stories_error_cant_load":"Не удалось загрузить историю.","stories_try_again":"Попробовать ещё раз","stories_error_expired":"Историю можно было посмотреть<br>в течение 24 часов после публикации","stories_error_deleted":"История удалена","stories_error_private":"Автор скрыл историю","stories_error_one_time_seen":"История больше не доступна","stories_mask_tooltip":"Попробовать эту маску","stories_mask_sent":"Маска отправлена на телефон","stories_followed":"Вы подписались&#33;","stories_unfollowed":"Вы отписались","stories_is_ad":"Реклама","stories_private_story":"Приватная<br>история","stories_expired_story":"История<br>истекла","stories_deleted_story":"История<br>удалена","stories_bad_browser":"Истории не поддерживаются в Вашем браузере","stories_delete_all_replies_confirm":"Вы действительно хотите удалить все ответы {name} за последние сутки? <br>Отменить действие будет невозможно.","stories_hide_reply_button":"Скрыть ответ","stories_reply_hidden":"Ответ на историю скрыт.","stories_restore":"Восстановить","stories_hide_reply_continue":"Продолжить просмотр","stories_hide_all_replies":["","Скрыть все его ответы за последние сутки","Скрыть все её ответы за последние сутки"],"stories_reply_add_to_blacklist":"Занести в чёрный список","stories_hide_reply_warning":"Вы действительно хотите скрыть этот ответ?<br>Отменить действие будет невозможно.","stories_replies_more_button":["","Показать ещё %s ответившего","Показать ещё %s ответивших","Показать ещё %s ответивших"],"stories_all_replies_hidden":"Все ответы скрыты","stories_ban_confirm":"Вы действительно хотите добавить в чёрный список {name}?<br>Отменить действие будет невозможно.","stories_banned":"Пользователь в чёрном списке","stories_share":"Поделиться","stories_like":"Нравится","stories_follow":"Подписаться","stories_unfollow":"Отписаться","stories_report":"Пожаловаться","stories_report_sent":"Жалоба отправлена","stories_narrative_show":"Посмотреть cюжет","stories_narrative_bookmark_added":"Сюжет сохранён в {link}закладках{\/link}","stories_narrative_bookmark_deleted":"Сюжет удалён из закладок","stories_narrative_edit_button":"Редактировать сюжет","stories_narrative_add_bookmark_button":"Сохранить в закладках","stories_narrative_remove_bookmark_button":"Удалить из закладок","stories_narrative_copy_link":"Скопировать ссылку","stories_narrative_copy_link_done":"Ссылка скопирована","stories_show_hashtag_link":"Поиск по хештегу","stories_go_to_place":"Перейти к месту","stories_go_to_group":"Открыть сообщество","stories_go_to_profile":"Открыть профиль","stories_go_to_post":"Перейти к записи","stories_go_to_story":"Перейти к истории","stories_share_question":"Поделиться мнением","stories_live_ended_title":"Спасибо за просмотр&#33;","stories_live_ended_desc_club":"Сообщество {name} <br>завершило трансляцию.","stories_live_ended_desc_user":["","{name} завершил трансляцию.","{name} завершила трансляцию."],"stories_live_ended_open_club":"Открыть сообщество","stories_live_ended_open_user":"Открыть профиль","stories_live_ended_watch_next":"Смотреть далее","stories_live_N_watching":["","%s смотрит сейчас","%s смотрят сейчас","%s смотрят сейчас"],"stories_live_chat_msg_too_long":"Сообщение слишком длинное ","stories_questions_title":"Мнения","stories_question_reply":"Ответить","stories_question_reply_error":"Вы не можете отправить сообщение этому пользователю, так как он ограничил круг лиц, которые могут присылать ему сообщения.","stories_question_reply_send":"Отправить","stories_question_reply_placeholder":"Напишите сообщение...","stories_question_delete":"Удалить мнение","stories_question_author_ban":"Заблокировать","stories_question_author_unban":"Разблокировать автора","stories_question_author_blocked":"Автор заблокирован","stories_question_author_unblocked":"Автор разблокирован","stories_question_author_report":"Пожаловаться","stories_question_report_title":"Жалоба на мнение","stories_question_report_send":"Отправить","stories_question_more":"Действия","stories_question_sent":"Вы поделились мнением с {name}","stories_question_reply_box_title":"Сообщение {name}","stories_question_ask_placeholder":"Введите текст...","stories_question_ask_box_title":"Мнение к истории {name}","stories_question_report_reason":"Укажите причину","stories_question_forbidden":"Вы не можете поделиться мнением","stories_audio_add":"Добавить в мою музыку","stories_audio_added":"Аудиозапись добавлена","stories_audio_delete":"Удалить аудиозапись","stories_audio_deleted":"Аудиозапись удалена","stories_audio_next_audio":"Слушать далее","stories_reactions_title":"Быстрые реакции","stories_reactions_tooltip_feature":"Нажмите на поле ввода, чтобы отправить реакцию","stories_go_to_market_item":"Подробнее","stories_market_access_error_title":"Ошибка","stories_market_access_error_text":"Данный товар недоступен","stories_groups_feed_block":"Сообщества","stories_settings_box_tab_all":"Все","stories_settings_box_tab_separately":"Отображаемые отдельно","stories_settings_box_tab_grouped":"Сгруппированные","stories_settings_box_search_placeholder":"Поиск по сообществам","stories_settings_box_put_back":"Отображать последним","stories_groups_grid_title":"Истории сообществ","stories_go_to_app":"Перейти к приложению","stories_groups_grid_text":"Здесь собраны истории сообществ, на которые Вы подписаны","stories_groups_tooltip":"Отмечайте истории, которые хотите видеть в общем списке","stories_settings_saved":"Настройки сохранены","stories_detailed_stats":"Подробная статистика","stories_privacy_feedback_hint":"У Вас ограничен доступ к историям. Перейдите в настройки приватности, чтобы это изменить.","stories_privacy_empty_views_hint":"Истории видите только Вы. Сделайте их доступными всем, чтобы получать больше просмотров","stories_go_to_settings":"Перейти в настройки","stories_mark_not_interested":"Это не интересно","stories_thanks_feedback":"Спасибо&#33; Вы делаете рекомендации лучше","stories_stat_counter_off":"выкл","stories_add_to_narrative":"Добавить в сюжет","stories_feature_narrative_users":"Собирайте сюжеты из историй","stories_question_select_public":"Публично","stories_question_select_author_only":"Видно только автору","stories_question_select_anonymous":"Анонимно","stories_question_about_user_tooltip":"<b>Публично<\/b><br>{name} сможет указать Ваше имя при публикации мнения.<br><br><b>Имя видно автору<\/b><br>{name} увидит Ваше имя, но не сможет указать его при публикации мнения.<br><br><b>Анонимно<\/b><br>{name} не увидит Ваше имя и не сможет указать его при публикации мнения.","stories_question_about_group_tooltip":"<b>Публично<\/b><br>Руководитель сообщества сможет указать Ваше имя при публикации мнения.<br><br><b>Имя видно автору<\/b><br>Руководитель сообщества увидит Ваше имя, но не сможет указать его при публикации мнения.<br><br><b>Анонимно<\/b><br>Руководитель сообщества не увидит Ваше имя и не сможет указать его при публикации мнения.","stories_question_about_user_tooltip_without_anon":"<b>Публично<\/b><br>{name} сможет указать Ваше имя при публикации мнения.<br><br><b>Имя видно автору<\/b><br>{name} увидит Ваше имя, но не сможет указать его при публикации мнения.","stories_question_about_group_tooltip_without_anon":"<b>Публично<\/b><br>Руководитель сообщества сможет указать Ваше имя при публикации мнения.<br><br><b>Имя видно автору<\/b><br>Руководитель сообщества увидит Ваше имя, но не сможет указать его при публикации мнения.","stories_voting_show_result":"Посмотреть результаты","stories_new_avatar_story_title_header":"Новая фотография{br}профиля","stories_new_avatar_story_poll_sticker_title":"Какое фото лучше?","stories_poll_sticker_vote_button_text":"Проголосовать","stories_new_avatar_story_success_box_text":"Фотография профиля обновлена и загружена в историю","stories_new_avatar_story_success_box_open_story":"Открыть историю"}, true);
+addLangKeys({"global_X_post_views":["","просмотр","просмотра","просмотров"],"global_like":"Нравится","global_X_shared":["","поделился","поделились","поделились"],"global_left_apps_show_less":"Скрыть","global_left_apps_show_more":"Показать ещё","box_close":"Закрыть","calls_add_participants":"Добавить участников","calls_add_participants_to_call":"Пригласить в звонок","calls_already_in_call_error":"Завершите текущий звонок, чтобы присоединиться к новому. ","calls_busy":"Занято","calls_busy_error":"Пользователь уже разговаривает. Перезвоните позже.","calls_call_all":"Позвонить всем","calls_call_menu_mute_all":"Отключить микрофоны участников","calls_call_menu_settings":"Настройки видео и аудио","calls_callee_is_offline":"Не в сети","calls_chat":"Открыть беседу","calls_chat_busy_error":"Вы не можете начать звонок в этой беседе, потому что в ней уже идёт звонок.","calls_chat_members":"Участники беседы","calls_collapse":"Свернуть","calls_error_force_call_finish":"Не удалось завершить звонок для всех.","calls_error_no_cam":"Необходим доступ к камере.","calls_error_no_cam_and_mic":"Необходим доступ к камере и микрофону.","calls_error_no_mic":"Необходим доступ к микрофону.","calls_exit_menu":"Завершить звонок","calls_flood_error":"Вы слишком часто звоните. Повторите попытку позже.","calls_force_call_finish":"Завершить звонок для всех","calls_friends":"Пригласить в звонок друзей","calls_get_url_link_error_text":"Не удалось получить ссылку на звонок.","calls_go_to_chat_with_participant":"Написать лично","calls_go_to_profile":"Перейти в профиль","calls_hangup_description":"Вы уверены, что хотите завершить звонок?","calls_incoming_audiocall":"Входящий аудиозвонок","calls_incoming_collapsed":"Входящий","calls_incoming_process_error":"Вам позвонили, но принять звонок в версии для компьютера не получится из-за ошибки.<br>Попробуйте принять вызов в мобильном приложении. Если это не поможет, обновите страницу и попросите собеседника перезвонить.","calls_incoming_videocall":"Входящий видеозвонок","calls_invite":"Приглашение в звонок","calls_join_error_text":"Организатор завершил звонок.","calls_join_with_audio":"Присоединиться с аудио","calls_join_with_video":"Присоединиться с видео","calls_leave_call":"Выйти из звонка","calls_link_copied":"Скопирована","calls_link_copy":"Скопировать","calls_management_add_warning":"Новые участники будут добавлены в беседу","calls_management_link":"Ссылка на звонок","calls_management_link_info":"Вы можете пригласить любого человека в звонок по ссылке, указанной ниже.","calls_management_participants":"Участники","calls_members_list_label":["","{name} и ещё %s человек","{name} и ещё %s человека","{name} и ещё %s человек"],"calls_menu_link":"Ссылка на звонок","calls_menu_link_copied":"Скопирована","calls_menu_link_copy":"Скопировать","calls_mute":"Выключить микрофон","calls_name_placeholder":"Введите имя","calls_new_call_title":"Звонок","calls_no_camera":"Камера не обнаружена","calls_notification_bad_network_connection":"Плохое качество связи","calls_notification_bad_network_connection_disable_camera":"Ваша камера выключена из-за плохого качества связи","calls_notification_mic_is_mute":"Ваш микрофон отключён","calls_notification_raised_hand":["","{user} поднял руку","{user} подняла руку"],"calls_notification_screen_already_shared":"Другой участник проводит демонстрацию экрана, <br>подождите, пока он закончит","calls_notification_screen_already_shared_by_user":["","{user} проводит демонстрацию экрана, <br>подождите, пока он закончит","{user} проводит демонстрацию экрана, <br>подождите, пока она закончит"],"calls_notification_screen_sharing_started":"Демонстрация экрана","calls_notification_user_started_screen_sharing":["","{user} запустил демонстрацию экрана","{user} запустила демонстрацию экрана"],"calls_oops":"О-оу&#33;","calls_own_label":"Вы","calls_participant_list_header":"Участники звонка","calls_participant_menu_kick":"Исключить из звонка","calls_participant_menu_mute":"Отключить микрофон","calls_participants_not_found":"Участники не найдены","calls_participants_plural":["","%s участник","%s участника","%s участников"],"calls_privacy_error":"Звонок не удался, так как у Вас или собеседника звонки запрещены в настройках приватности.","calls_reject":"Отклонить","calls_reject_call":"Отклонить звонок","calls_reject_description":"Вы уверены, что хотите отклонить звонок?","calls_reject_title":"Отклонить звонок","calls_rejected_status":"Вызов отклонён","calls_remove_token":"Удалить","calls_reply":"Ответить","calls_reply_with_audio":"Ответить с аудио","calls_reply_with_video":"Ответить с видео","calls_restore":"Развернуть","calls_search_participants_placeholder":"Введите имя или фамилию","calls_selected":"Выбрано {selected} из {limit}","calls_settings":"Настройки","calls_settings_camera":"Камера","calls_settings_mic":"Микрофон","calls_settings_no_camera":"Камера не обнаружена","calls_settings_no_mic":"Микрофон не обнаружен","calls_show_all_friends":"Показать всех друзей","calls_show_all_members":"Показать всех участников беседы","calls_show_grid":"Отображать участников сеткой ","calls_show_orator":"Отображать спикера","calls_start_error":"Во время звонка произошла ошибка. Повторите попытку позже.","calls_start_screen_share":"Демонстрация экрана","calls_status_connecting":"Подключение","calls_status_hangup":"Отключение","calls_status_no_permissions":"Нет разрешений","calls_status_waiting":"Ожидание","calls_stop_screen_share":"Остановить демонстрацию экрана","calls_sure_leave_call":"Вы уверены, что хотите завершить звонок?","calls_tooltip_fullscreen_off":"Обычный","calls_tooltip_fullscreen_on":"Развернуть","calls_tooltip_lower_hand":"Опустить руку","calls_tooltip_raise_hand":"Поднять руку","calls_unmute":"Включить микрофон","calls_unsupported_browser_error":"Звонок не удался, потому что Ваш браузер устарел. Обновите его, чтобы пользоваться звонками.","captcha_cancel":"Отмена","captcha_enter_code":"Введите код с картинки","captcha_send":"Отправить","global_actions":"Действия","global_add":"Добавить","global_age_days":["","%s день","%s дня","%s дней"],"global_age_months":["","%s месяц","%s месяца","%s месяцев"],"global_age_seconds":["","%s секунда","%s секунды","%s секунд"],"global_age_weeks":["","%s неделя","%s недели","%s недель"],"global_age_years":["","%s год","%s года","%s лет"],"global_and":"{before} и {after}","global_apps":"Приложения","global_back":"Назад","global_box_title_back":"Вернуться назад","global_cancel":"Отмена","global_captcha_input_here":"Введите код","global_chats":"Диалоги","global_close":"Закрыть","global_communities":"Сообщества","global_date":["","{day} {month} {year}","вчера","сегодня","завтра"],"global_days_accusative":["","%s день","%s дня","%s дней"],"global_delete":"Удалить","global_error":"Ошибка","global_friends":"Друзья","global_hours":["","%s час","%s часа","%s часов"],"global_hours_accusative":["","%s час","%s часа","%s часов"],"global_hours_ago":["","%s час назад","%s часа назад","%s часов назад"],"global_just_now":"только что","global_mins_ago":["","%s минуту назад","%s минуты назад","%s минут назад"],"global_minutes":["","%s минута","%s минуты","%s минут"],"global_minutes_accusative":["","%s минуту","%s минуты","%s минут"],"global_money_amount_rub":["","%s рубль","%s рубля","%s рублей"],"global_months_accusative":["","%s месяц","%s месяца","%s месяцев"],"global_news_search_results":"Результаты поиска в новостях","global_no":"Нет","global_online_long_ago":["","заходил давно","заходила давно"],"global_online_this_month":["","заходил в этом месяце","заходила в этом месяце"],"global_online_was_recently":["","заходил недавно","заходила недавно"],"global_online_was_week":["","заходил на этой неделе","заходила на этой неделе"],"global_recaptcha_title":"Подтверждение действия","global_save":"Сохранить","global_seconds_accusative":["","%s секунду","%s секунды","%s секунд"],"global_secs_ago":["","%s секунду назад","%s секунды назад","%s секунд назад"],"global_short_date":["","{day} {month}","вчера","сегодня","завтра"],"global_short_date_time":["","{day} {month} в {hour}:{minute}","вчера в {hour}:{minute}","сегодня в {hour}:{minute}","завтра в {hour}:{minute}"],"global_short_date_time_l":["","{day} {month} в {hour}:{minute}","вчера в {hour}:{minute}","сегодня в {hour}:{minute}","завтра в {hour}:{minute}"],"global_show_all_results":"Показать все результаты","global_sorry_error":"К сожалению, произошла ошибка","global_to_top":"Наверх","global_user_is_online":"онлайн","global_user_is_online_mobile":"онлайн с телефона","global_warning":"Предупреждениe","global_weeks_accusative":["","%s неделю","%s недели","%s недель"],"global_word_hours_ago":["","час назад","два часа назад","три часа назад","четыре часа назад","пять часов назад"],"global_word_mins_ago":["","минуту назад","две минуты назад","три минуты назад","4 минуты назад","5 минут назад"],"global_word_secs_ago":["","только что","две секунды назад","три секунды назад","четыре секунды назад","пять секунд назад"],"global_years_accusative":["","%s год","%s года","%s лет"],"global_yes":"Да","head_search_results":"Результаты поиска","mail_ad_tag_easy_promoted_market":"Из рекламы товаров","mail_ad_tag_no_access_box_text":"Недостаточно прав в рекламном кабинете, чтобы просматривать объявление.","mail_ad_tag_no_access_box_title":"Ошибка","mail_ad_tag_no_access_text":"Из рекламы","mail_ad_tag_text_prefix":"AD","mail_added_article":"Статья","mail_added_artist":"Музыкант","mail_added_audio":"Аудиозапись","mail_added_audio_album":"Альбом","mail_added_audio_playlist":"Плейлист","mail_added_audiomsg":"Голосовое сообщение","mail_added_audios":["","Аудиозапись","%s аудиозаписи","%s аудиозаписей"],"mail_added_call":"Звонок","mail_added_clips":"Клипы","mail_added_curator":"Куратор","mail_added_doc":"Документ","mail_added_docs":"Документ","mail_added_geo":"Карта","mail_added_gift":"Подарок","mail_added_graffiti":"Граффити","mail_added_group":"Группа","mail_added_link":"Ссылка","mail_added_market_item":"Товар","mail_added_mask":"Маска","mail_added_money_request":"Запрос на денежный перевод","mail_added_money_transfer":"Денежный перевод","mail_added_msg":"Cообщение","mail_added_msgs":"Cообщения","mail_added_photo":"Фотография","mail_added_photos":["","Фотография","%s фотографии","%s фотографий"],"mail_added_podcast":"Подкаст","mail_added_poll":"Опрос","mail_added_sticker":"Стикер","mail_added_story":"История","mail_added_video":"Видеозапись","mail_added_videos":["","Видео","%s видео","%s видео"],"mail_added_vkpay":"Запрос VK Pay","mail_added_wall":"Запись на стене","mail_added_wall_reply":"Комментарий на стене","mail_allow_comm_messages":"Разрешить сообщения","mail_and_peer":"и ещё {count} {typing}","mail_and_peer_one":"и","mail_block_comm_messages":"Запретить сообщения","mail_block_notify_messages":"Запретить оповещения","mail_block_user":"Заблокировать пользователя","mail_by_you":"Вы","mail_call_declined":"Звонок отклонён","mail_call_snippet_canceled":"Отменён","mail_call_snippet_declined":"Отклонён","mail_call_snippet_finished":"Завершён","mail_call_snippet_group":"Групповой звонок","mail_call_snippet_incoming":"Входящий звонок","mail_call_snippet_incoming_video":"Входящий видеозвонок","mail_call_snippet_missed":"Пропущен","mail_call_snippet_outgoing":"Исходящий звонок","mail_call_snippet_outgoing_video":"Исходящий видеозвонок","mail_chat_leave_confirm":"Покинув беседу, Вы не будете получать новые сообщения от участников. Вы сможете вернуться при наличии свободных мест.<br>","mail_chat_sure_to_delete_all":"Вы действительно хотите <b>удалить всю переписку<\/b> в этой беседе?<br><br>Отменить это действие будет <b>невозможно<\/b>.","mail_clear_recent":"Очистить","mail_delete":"Удалить","mail_delete_for_all":"Удалить для всех","mail_deleteall1":"Удалить все сообщения","mail_deleted_stop":"Сообщение удалено.","mail_dialog_msg_delete_N":["","Вы действительно хотите <b>удалить<\/b> сообщение?","Вы действительно хотите <b>удалить<\/b> %s сообщения?","Вы действительно хотите <b>удалить<\/b> %s сообщений?"],"mail_dialog_msg_delete_title":"Удалить сообщение","mail_error":"Ошибка","mail_expired_message":"Сообщение исчезло","mail_fwd_msgs":["","%s сообщение","%s сообщения","%s сообщений"],"mail_gift_message_sent":["","отправил подарок","отправила подарок"],"mail_group_sure_to_delete_all":"Вы действительно хотите <b>удалить всю переписку<\/b> с этим сообществом?<br><br>Отменить это действие будет <b>невозможно<\/b>.","mail_header_online_status":"online","mail_hide_unpin_hover":"Скрыть","mail_im_accepted_message_request":"Это {contact} из Вашего списка контактов","mail_im_accepted_message_request_no_name":"безымянный контакт","mail_im_call_audio":"Аудиозвонок","mail_im_call_video":"Видеозвонок","mail_im_chat_created":["","{from} создал беседу {title}","{from} создала беседу {title}"],"mail_im_chat_own_screenshot":"Вы сделали скриншот беседы","mail_im_chat_screenshot":["","{from} сделал скриншот беседы","{from} сделала скриншот беседы"],"mail_im_create_chat_with":"Добавить собеседников","mail_im_delete_all_history":"Очистить историю сообщений","mail_im_delete_email_contact":"Удалить переписку","mail_im_goto_conversation":"Перейти к диалогу","mail_im_invite_by_call_link":["","{from} присоединился к звонку по ссылке","{from} присоединилась к звонку по ссылке"],"mail_im_invite_by_link":["","{from} присоединился к беседе по ссылке","{from} присоединилась к беседе по ссылке"],"mail_im_invited":["","{from} пригласил {user}","{from} пригласила {user}"],"mail_im_invited_to_call":["","{from} пригласил {user} в звонок","{from} пригласила {user} в звонок"],"mail_im_kicked_from_chat":["","{from} исключил {user}","{from} исключила {user}"],"mail_im_left":["","{from} вышел из беседы","{from} вышла из беседы"],"mail_im_mention_all":"Все участники беседы","mail_im_mention_online":"Все, кто сейчас онлайн","mail_im_mute":"Отключить уведомления","mail_im_n_chat_members":["","%s участник","%s участника","%s участников"],"mail_im_new_messages":["","%s новое сообщение","%s новых сообщения","%s новых сообщений"],"mail_im_peer_profile_delete_note_success":"Комментарий удалён","mail_im_peer_profile_extra_tags":["","%s метка","%s метки","%s меток"],"mail_im_peer_profile_info_empty":"Нет данных","mail_im_peer_profile_info_label_text":"Информация:","mail_im_peer_profile_join_date_empty_text":["","Не подписан","Не подписана"],"mail_im_peer_profile_join_date_label_text":"Дата подписки:","mail_im_peer_profile_manage_tags":"Управление метками","mail_im_peer_profile_manage_tags_add_link":"Добавить метку","mail_im_peer_profile_manage_tags_box_title":"Управление","mail_im_peer_profile_manage_tags_placeholder":"Новая метка","mail_im_peer_profile_manage_tags_remove":"Удалить метку","mail_im_peer_profile_manage_tags_success":"Метки сохранены","mail_im_peer_profile_note_add_link":"Добавить комментарий","mail_im_peer_profile_note_box_placeholder":"Введите текст…","mail_im_peer_profile_note_box_title":"Комментарий администратора","mail_im_peer_profile_note_delete_confirmation_text":"Вы уверены, что хотите удалить комментарий?","mail_im_peer_profile_note_delete_link":"Удалить комментарий","mail_im_peer_profile_note_edit_link":"Редактировать","mail_im_peer_profile_note_label_text":"Комментарий:","mail_im_peer_profile_save_note_success":"Комментарий сохранён","mail_im_peer_profile_tag_delete_confirmation_text":["","Метка «{tag_name}» используется в %s диалоге. Если удалить метку, она удалится из всех диалогов. Вы уверены, что хотите удалить её?","Метка «{tag_name}» используется в %s диалогах. Если удалить метку, она удалится из всех диалогов. Вы уверены, что хотите удалить её?","Метка «{tag_name}» используется в %s диалогах. Если удалить метку, она удалится из всех диалогов. Вы уверены, что хотите удалить её?"],"mail_im_peer_profile_tag_delete_confirmation_text_single":"Метка «{tag_name}» используется в одном диалоге. Если удалить метку, она удалится из диалога. Вы уверены, что хотите удалить её?","mail_im_peer_profile_tags_empty":"Без меток","mail_im_peer_profile_tags_label_text":"Метки:","mail_im_peer_profile_toggle_tags_off":"Скрыть доступные метки","mail_im_peer_profile_toggle_tags_on":"Показать доступные метки","mail_im_peer_search":"Поиск по истории сообщений","mail_im_photo_removed":["","{from} удалил фотографию беседы","{from} удалила фотографию беседы"],"mail_im_photo_removed_channel":["","{from} удалил фотографию канала","{from} удалила фотографию канала"],"mail_im_photo_set":["","{from} обновил фотографию беседы","{from} обновила фотографию беседы"],"mail_im_pin_message":["","{from} закрепил сообщение «{msg}»","{from} закрепила сообщение «{msg}»"],"mail_im_pin_message_empty2":["","{from} закрепил {link}сообщение{\/link}","{from} закрепила {link}сообщение{\/link}"],"mail_im_returned_to_chat":["","{from} вернулся в беседу","{from} вернулась в беседу"],"mail_im_search_empty":"Не найдено сообщений по такому запросу.","mail_im_show_media_history":"Показать вложения","mail_im_show_media_history_group":"Показать вложения","mail_im_start_group_call":["","{from} начал групповой звонок","{from} начала групповой звонок"],"mail_im_title_updated_channel":["","{from} изменил название канала: {title}","{from} изменила название канала: {title}"],"mail_im_title_updated_dot":["","{from} изменил название беседы: {title}","{from} изменила название беседы: {title}"],"mail_im_unmute":"Включить уведомления","mail_im_unpin_message":["","{from} открепил сообщение «{msg}»","{from} открепила сообщение «{msg}»"],"mail_im_unpin_message_empty2":["","{from} открепил {link}сообщение{\/link}","{from} открепила {link}сообщение{\/link}"],"mail_invitation_sended_ago":"Приглашение отправлено {when}","mail_join_invite_error_title":"Ошибка вступления в чат","mail_keyboard_label_location":"Отправить своё местоположение","mail_keyboard_label_vkpay":"Оплатить через VK Pay","mail_last_activity_tip":["","{user} был в сети {time}","{user} была в сети {time}"],"mail_leave_channel":"Отписаться от канала","mail_leave_chat":"Выйти из беседы","mail_marked_as_spam":"Сообщение помечено как спам и удалено.","mail_menu_mark_unread":"Отметить непрочитанным","mail_menu_pin_hide":"Скрыть закрепл. сообщение","mail_menu_pin_show":"Показать закрепл. сообщение","mail_menu_unpin":"Открепить сообщение","mail_message_edited":"изменено","mail_message_request_reject":"Отклонить","mail_message_wait_until_uploaded":"Пожалуйста, дождитесь окончания загрузки файлов.","mail_messages_expired":["","{count} сообщение исчезло","{count} сообщения исчезло","{count} сообщений исчезло"],"mail_money_amount_rub":["","%s руб.","%s руб.","%s руб."],"mail_money_request_collected_amount":"Собрано {amount}","mail_money_request_collected_amount_from":"Собрано {amount} из {total_amount}","mail_money_request_held_amount":"({amount} ожидает получения)","mail_money_request_message_sent":["","отправил запрос на перевод","отправила запрос на перевод"],"mail_money_tranfer_message_sent":["","перевёл деньги","перевела деньги"],"mail_peer_profile_likes_replies_tooltip":"Данные о лайках и комментариях показаны с 2020 года","mail_recent_searches":"Недавно Вы искали","mail_recording_audio_several":["","записывает аудио","записывают аудио","записывают аудио"],"mail_reject_mr_confirmation_text":"Вы действительно хотите отклонить приглашение в беседу?","mail_reject_mr_confirmation_title":"Отклонить приглашение","mail_restore":"Восстановить","mail_restored":"Сообщение восстановлено","mail_return_to_chat":"Вернуться в беседу","mail_return_to_vkcomgroup":"Подписаться на канал","mail_search_conversations_sep":"Беседы","mail_search_dialogs_sep":"Люди и сообщества","mail_search_messages":"Сообщения","mail_search_only_messages":"Искать в личных сообщениях","mail_search_only_messages_comm":"Искать в сообщениях сообщества","mail_send_message_error":"Ошибка при отправке сообщения","mail_settings":"Информация о беседе","mail_source_info":"Со страницы: {link}<br>{info}","mail_sure_to_delete_all":"Вы действительно хотите <b>удалить всю переписку<\/b> с данным пользователем?<br><br>Отменить это действие будет <b>невозможно<\/b>.","mail_typing_several":["","печатает","печатают","печатают"],"mail_unfollow_channel":"Отписаться","mail_unfollow_channel_confirmation":"Вы действительно хотите <b>отписаться и удалить все сообщения<\/b> от этого канала?","mail_unpin":"Открепить сообщение","mail_unpin_text":"Вы действительно хотите открепить сообщение? Это изменение увидят все участники беседы.","mail_unpin_title":"Открепить сообщение","mail_unread_message":"Сообщение не прочитано","mail_vkcomgroup_leave_confirm":"Отписавшись от канала, Вы не будете получать новые сообщения. Вы сможете вернуться впоследствии.<br>","mail_vkcomgroup_settings":"Информация о канале","months_of":{"1":"января","2":"февраля","3":"марта","4":"апреля","5":"мая","6":"июня","7":"июля","8":"августа","9":"сентября","10":"октября","11":"ноября","12":"декабря"},"months_sm_of":{"1":"янв","2":"фев","3":"мар","4":"апр","5":"мая","6":"июн","7":"июл","8":"авг","9":"сен","10":"окт","11":"ноя","12":"дек"},"text_N_symbols_remain":["","Остался %s знак","Осталось %s знака","Осталось %s знаков"],"text_exceeds_symbol_limit":["","Допустимый объём превышен на %s знак.","Допустимый объём превышен на %s знака.","Допустимый объём превышен на %s знаков."],"votes_flex":["","голос","голоса","голосов"],"notifications_native_common_error":"Произошла ошибка при включении уведомлений.","Edit":"Редактировать","apps_activities_edit_points_remain":["","доступно %s","доступно %s","доступно %s"],"apps_activities_unnamed":"Без имени","apps_add_admin":"Добавить администратора","apps_cancel_activity_confrim":"Вы уверены, что хотите отменить все изменения миссии?","apps_cancel_request":"Отмена изменений","apps_cancel_request_confrim":"Вы уверены, что хотите отменить все изменения запроса <b>%s<\/b>?","apps_changes_saved":"Изменения сохранены","apps_clone_stored_funcs_confirm_button":"Клонировать","apps_clone_stored_funcs_confirm_text":"Клонирование процедур приведет к <b>полной<\/b> их замене; все существующие процедуры в выбранном приложении будут удалены.","apps_clone_stored_funcs_confirm_title":"Подтверждение действия","apps_confirm_file_delete":"Вы уверены, что хотите удалить этот файл?","apps_edit_activities_points":["","%s балл","%s балла","%s баллов"],"apps_edit_activity_accepted":"Миссия <b>одобрена<\/b> модераторами и <b>готова к использованию<\/b>.","apps_edit_activity_created":"Миссия <b>сохранена<\/b> и отправлена на проверку модераторам.<br>После одобрения Вы сможете её использовать.","apps_edit_activity_declined":"Миссия <b>отклонена<\/b> модераторами.<br>Для одобрения необходимо изменить текст.","apps_edit_admin_demote":"Разжаловать","apps_edit_invalid_image_file":"Для загрузки доступны только изображения","apps_edit_media_invalid_image_size":"Размер загруженного изображения не соответствует 588&#215;196px.","apps_edit_request_accepted":"Запрос <b>одобрен<\/b> модераторами ВКонтакте и <b>готов к использованию<\/b>.","apps_edit_request_created":"Запрос <b>сохранён<\/b> и отправлен на проверку модераторам.<br>После одобрения Вы сможете его использовать.","apps_edit_request_declined":"Запрос <b>отклонён<\/b> модераторами ВКонтакте.<br>Для одобрения необходимо изменить текст.","apps_edit_sales_add_product":"Добавить предмет","apps_edit_sales_cancel":"Отмена","apps_edit_sales_cancel_confirm":"Вы уверены, что хотите отменить все изменения?","apps_edit_sales_delete_confirm":"Вы уверены, что хотите удалить предмет?","apps_edit_sales_delete_product":"Удалить предмет","apps_edit_sales_error_title":"Некорректные данные.","apps_edit_sales_new_product":"Новый предмет","apps_edit_sales_new_product_name":"Название продукта","apps_edit_sales_new_product_price":"Старая цена","apps_edit_sales_new_product_sale_price":"Цена","apps_edit_sales_product_color_from":"Цвет фона:","apps_edit_sales_product_color_to":"Цвет фона:","apps_edit_sales_product_count":["","предмет","предмета","предметов"],"apps_edit_sales_product_currency_votes":["","голос","голоса","голосов"],"apps_edit_sales_product_hint_approved":"Заявка на участие предмета в акции <b>одобрена<\/b> модераторами. ","apps_edit_sales_product_hint_declined":"Заявка на участие предмета в акции <b>отклонена<\/b> модераторами. <br\/> Для одобрения необходимо изменить параметры. ","apps_edit_sales_product_hint_disabled":"Участие предмета в акции <b>приостановлено<\/b>. ","apps_edit_sales_product_hint_pending":"Предмет сохранён. <br\/> Заявка на участие в акции отправлена на <b>модерацию<\/b>. ","apps_edit_sales_product_icon":"Иконка 150&#215;150:","apps_edit_sales_product_icon_upload":"Загрузить","apps_edit_sales_product_invalid_image_size":"Размер загруженного изображения не соответствует 150&#215;150px.","apps_edit_sales_product_name":"Название:","apps_edit_sales_product_name_placeholder":"Название продукта","apps_edit_sales_product_price":"Актуальная цена:","apps_edit_sales_product_ref":"Реф:","apps_edit_sales_product_running_count":["","запущенный","запущенных","запущенных"],"apps_edit_sales_product_sale_price":"Цена со скидкой:","apps_edit_sales_product_save":"Отправить на модерацию","apps_edit_sales_product_select_color":"Выберите цвет","apps_edit_sales_stop_confirm":"Вы уверены, что хотите остановить участие предмета в акции?","apps_edit_sales_stop_product":"Остановить","apps_m_iframe_dev_team_id_tt":"<b>Опциональное поле.<\/b> <br\/><br\/> Если вы являетесь участником Apple Developer Program, укажите, пожалуйста, свой идентификатор разработчика. В будущем эта информация может быть использована при модерации каталога VK Mini Apps. <br\/><br\/> Посмотреть Team ID можно <a class=\"wikiExtLink\" href=\"\/away.php?to=http%3A%2F%2Fdeveloper.apple.com%2Faccount%2F%23%2Fmembership\" target=\"_blank\" onclick=\"return goAway('http:\/\/developer.apple.com\/account\/#\/membership')\">здесь<\/a>. ","apps_main_admin_change":"Изменить","apps_main_admin_change_cancel":"Отменить","apps_main_admin_promote":"Назначить главным администратором","apps_marusia_web_hook_url_notice":"Допустим только протокол HTTPS","apps_no_admin_found":"Этот пользователь не найден среди администраторов.","apps_photo_notloaded_unknown":"Не удалось загрузить данное изображение.","apps_remove_activity":"Удаление миссии","apps_remove_activity_confirm":"Вы уверены, что хотите удалить миссию <b>%s<\/b>?","apps_remove_request":"Удаление запроса","apps_remove_request_confrim":"Вы уверены, что хотите удалить запрос <b>%s<\/b>?","apps_sales_votes":["","Голос","Голоса","Голосов"],"apps_send_check":"Отправить на проверку","apps_title_file_delete":"Удаление файла","apps_wrong_request_name":"Название может содержать только латинские буквы, цифры и подчеркивание","box_cancel":"Отмена","box_no":"Нет","box_yes":"Да","developers_cancel_func":"Отмена изменений","developers_cancel_func_confrim":"Вы уверены, что хотите отменить все изменения процедуры <b>%s<\/b>?","developers_confirmation_sh_func":"Вы хотите сохранить изменения в предыдущей версии перед переходом к другой?","developers_do_cancel":"Отменить изменения","developers_do_remove":"Удалить","developers_func_nosaved_confirm":"Вы не сохранили изменения в функциях: <b>%s<\/b><br>Вы хотите перейти без сохранений?","developers_func_remove":"Удалить","developers_func_remove_confirm":"Вы действительно хотите удалить версию <b>{v}<\/b> процедуры <b>{name}<\/b>?","developers_no_funcs_found":"По запросу {query} ни одной процедуры не найдено","developers_remove_func":"Удаление процедуры","developers_remove_func_confrim":"Вы уверены, что хотите удалить процедуру <b>%s<\/b>?","developers_remove_func_version":"Удалить версию","developers_run_result":"Результат выполнения метода","developers_search_version":"Поиск версий","developers_version_pref":"Версия","global_action_confirmation":"Подтверждение действия","global_continue":"Продолжить","audio_claim_delete":"удалить аудиозапись","audio_claim_delete_capital":"Удалить аудиозапись","audio_claim_objection":"заполнив специальную форму","audio_claim_warning":"Аудиозапись {audio} была изъята из публичного доступа в связи с обращением правообладателя.","audio_claim_warning_title":"Спорная аудиозапись","audio_claimed_geo":"Аудиозапись {audio} недоступна для прослушивания в Вашем регионе.","audio_claimed_replacement_available":"Аудиозапись была заблокирована по требованию правообладателя. Вы можете заменить её на оригинальную аудиозапись правообладателя <b>{original}<\/b>.","audio_replace_with_original":"Заменить","audio_site_rules_violation_header":"Запрещённая аудиозапись","audio_site_rules_violation_warning":"Аудиозапись {audio} была изъята из публичного доступа в связи с нарушением правил сайта.","friends_no_user_selected":"Вы не выбрали ни одного пользователя.","global_audio_ad":"Реклама","global_audio_only_with_subscription_btn":"Узнать больше","global_audio_only_with_subscription_text":"Так решил музыкант или его представитель. Купите подписку и получите доступ к расширенному каталогу музыки.","global_audio_only_with_subscription_title":"Аудиозапись доступна с подпиской","global_box_error_title":"Ошибка","global_error_occured":"Произошла ошибка","global_photo_full_size":"Увеличить","global_search_not_found":"По запросу {search} ничего не найдено.","global_unknown_error":"Неизвестная ошибка","mail_money_transfer_cancel_btn":"Отменить перевод","mail_money_transfer_cancel_confirm":"Вы действительно хотите отменить денежный перевод?","mail_money_transfer_decline_btn":"Отклонить","mail_money_transfer_decline_confirm":"Вы действительно хотите отклонить денежный перевод?","news_fb_money_transfer_decline_btn":"Отклонить","news_fb_money_transfer_decline_confirm":"Вы действительно хотите отклонить денежный перевод?","stories_bad_browser":"Истории не поддерживаются в Вашем браузере","stories_mask_sent":"Маска отправлена на телефон"});
+addTemplates({"_":"_","stickers_sticker_url":"https:\/\/vk.com\/sticker\/1-%id%-%size%"});var marketplaceTooltipShown = ls.get('marketplace_tooltip_shown') || 0;
+if (marketplaceTooltipShown <= 2 && !cur.marketplaceTooltip && cur.module !== 'im' && isVisible('side_bar') && isVisible('side_bar_inner') && !cur.introTooltipShow) {
+  setTimeout(function () {
+    ls.set('marketplace_tooltip_shown', marketplaceTooltipShown + 1);
+
+    cur.marketplaceTooltip = new ElementTooltip('l_mk', {
+      autoShow: false,
+      content: '<div class="feature_intro_tt_hide" onclick="cur.closeMarketplaceTooltip();"></div>Публикуйте объявления и ищите товары других пользователей и сообществ.',
+      cls: 'feature_intro_tt',
+      forceSide: 'right',
+      width: 270,
+      appendTo: geByTag1('body'),
+      offset: [-40, 0, 0],
+      onHide: function() {
+        if (cur.marketplaceTooltip) cur.marketplaceTooltip.destroy();
+      }
+    });
+    cur.marketplaceTooltip.show();
+
+    cur.closeMarketplaceTooltip = function () {
+      if (cur.marketplaceTooltip) cur.marketplaceTooltip.destroy();
+      ls.set('marketplace_tooltip_shown', 999);
+    };
+    cur.destroy.push(function() {
+      if (cur.marketplaceTooltip) cur.marketplaceTooltip.hide();
+    });
+  }, 1000);
+} else if (marketplaceTooltipShown > 2) {
+  ajax.post('/al_index.php?act=hide_feature_tt', {type: 'market', hash: '7f037bfe56fa1688e2'});
+};
+window.cur = window.cur || {};
+cur['emojiHintsSendLogHash']="3f3297700e6cf7a43e";
+var type = 2;
+var isVkApp = 0;
+cur.dropDowns = {};
+window.radioBtns['app_type'] = {
+  els: [ge('app_type_0'), ge('app_type_1'), ge('app_type_2'), ge('app_type_3')]
+}
+cur.createAppHash = 'ce150e046704de5153';
+
+cur.checkAppType = function(type) {
+  radiobtn(ge('app_type_' + type), type, 'app_type')
+  var createBtn = ge('apps_create_app_btn');
+  createBtn.setAttribute('onclick', 'cur.createApp()');
+  if (type === 2) {
+    hide('apps_edit_connect_options');
+    hide('apps_edit_marusia_options');
+    show('apps_edit_iframe_options');
+    createBtn.innerHTML = 'Перейти к настройке приложения';
+  } else if (type === 3) {
+    hide('apps_edit_connect_options');
+    createBtn.innerHTML = 'Создать скилл';
+    createBtn.setAttribute('onclick', 'AppsEdit.MarusiaSkill.createApp(this)');
+    hide('apps_edit_iframe_options');
+    show('apps_edit_marusia_options');
+  } else if (type) {
+    show('apps_edit_connect_options');
+    createBtn.innerHTML = 'Подключить сайт';
+    hide('apps_edit_iframe_options');
+    hide('apps_edit_marusia_options');
+  } else {
+    hide('apps_edit_connect_options');
+    createBtn.innerHTML = 'Подключить приложение';
+    hide('apps_edit_iframe_options');
+    hide('apps_edit_marusia_options');
+  }
+}
+cur.checkAppType(2);
+
+cur.createApp = function() {
+  var params = AppsEdit.getParams(isVkApp);
+  if (!params.title) {
+    return notaBene('app_title');
+  }
+  var appType = params.type;
+  var appCategory = params.category;
+  if (appType == 2) {
+    if (appCategory == 2) {
+      params.type = params.subcategory = 2000;
+    } else {
+      params.type = params.subcategory;
+    }
+    params.desc = val('app_desc');
+  } else if (appType == 1) {
+    params.type = -1
+    if (!params.site_url) {
+      return notaBene('app_site_url');
+    }
+    if (!params.base_domain) {
+      return notaBene('app_base_domain');
+    }
+  } else if (appType == 3) {
+    params.type = 4000;
+  } else {
+    params.type = -2;
+  }
+
+  params.hash = cur.createAppHash;
+  ajax.post('al_apps_edit.php', extend(params, {act: 'do_create'}), {
+    onFail: function(error) {
+      ge('app_edit_error').innerHTML = error;
+      if (error) {
+        if (!isVisible('app_edit_error_wrap')) {
+          slideDown('app_edit_error_wrap', 100);
+        }
+      } else {
+        if (isVisible('app_edit_error_wrap')) {
+          slideUp('app_edit_error_wrap', 100);
+        }
+      }
+      return true;
+    }
+  })
+};
+cur.mainCat = 0;
+var catList = {"0":[[14,"Стратегии"],[18,"Ролевые"],[19,"3D-шутеры"],[21,"Гонки"],[10,"Аркады"],[16,"Экономические"],[12,"Симуляторы"],[15,"Головоломки"],[11,"Приключения"],[17,"Настольные"],[25,"Азартные"],[5,"Общение"]],"1":[[1007,"Новостные"],[1004,"Общение"],[1005,"Мультимедиа"],[1003,"Рисование"],[1006,"Образовательные"],[1008,"Магазины"],[1000,"Прочее"]],"3":[[3010,"Образ жизни"],[3001,"Еда и напитки"],[3002,"Развлечения"],[3003,"Финансы"],[3004,"Покупки"],[3005,"Бизнес"],[3006,"Общение"],[3007,"Путешествия"],[3008,"Такси"],[3009,"Новости"],[3011,"Красота и здоровье"],[3012,"Образование"],[3013,"Мероприятия"],[3014,"Инструменты"],[3000,"Другое"],[3015,"Оплата услуг"],[3016,"9 Мая"]]};
+var categories;
+
+window.radioBtns['app_category'] = {
+  els: []
+};
+
+if (false) {
+  categories = [2];
+} else {
+  categories = [0, 1, 2, 3];
+}
+
+each(categories, function(){
+  var el = ge('app_category_' + this);
+  if (el) {
+    window.radioBtns['app_category'].els.push(el)
+  }
+});
+
+cur.defVals = [5, 1000];
+cur.defVals[0] = 10;
+cur.subcategory_row = ge('app_type_subcategory');
+var subcategoryCont = ge('app_subcategory');
+if (subcategoryCont) {
+  cur.dropDowns['app_subcategory'] = new Dropdown(subcategoryCont, catList[cur.mainCat], {
+    width: '278px',
+    selectedItems: '10',
+    multiselect: false,
+    big: 1
+  });
+};
+cur.checkAppCat = function(type) {
+  var radio = ge('app_category_' + type);
+  radiobtn(radio, type, 'app_category');
+
+  if (type === 1 || type === 2) {
+    if (isVisible(cur.subcategory_row)) {
+      hide(cur.subcategory_row );
+    }
+    return;
+  } else {
+    if (!isVisible(cur.subcategory_row)) {
+      show(cur.subcategory_row);
+    }
+  }
+  if (type != cur.mainCat) {
+    var dd = cur.dropDowns['app_subcategory'];
+    cur.defVals[cur.mainCat] = dd.val();
+    cur.mainCat = type;
+    dd.setData(catList[cur.mainCat]);
+    dd.val(cur.defVals[cur.mainCat])
+  }
+}
+cur.checkAppCat('3');Dev.init([]);var sections = [];
+cur.sections = {"account":{"list":[["account.ban",""],["account.changePassword",""],["account.getActiveOffers",""],["account.getAppPermissions",""],["account.getBanned",""],["account.getCounters",""],["account.getInfo",""],["account.getProfileInfo",""],["account.getPushSettings",""],["account.registerDevice",""],["account.saveProfileInfo",""],["account.setInfo",""],["account.setNameInMenu",""],["account.setOffline",""],["account.setOnline",""],["account.setPushSettings",""],["account.setSilenceMode",""],["account.unban",""],["account.unregisterDevice",""]],"name":"Account"},"ads":{"list":[["ads.addOfficeUsers",""],["ads.checkLink",""],["ads.createAds",""],["ads.createCampaigns",""],["ads.createClients",""],["ads.createLookalikeRequest",""],["ads.createTargetGroup",""],["ads.createTargetPixel",""],["ads.deleteAds",""],["ads.deleteCampaigns",""],["ads.deleteClients",""],["ads.deleteTargetGroup",""],["ads.deleteTargetPixel",""],["ads.getAccounts",""],["ads.getAds",""],["ads.getAdsLayout",""],["ads.getAdsTargeting",""],["ads.getBudget",""],["ads.getCampaigns",""],["ads.getCategories",""],["ads.getClients",""],["ads.getDemographics",""],["ads.getFloodStats",""],["ads.getLookalikeRequests",""],["ads.getMusicians",""],["ads.getOfficeUsers",""],["ads.getPostsReach",""],["ads.getRejectionReason",""],["ads.getStatistics",""],["ads.getSuggestions",""],["ads.getTargetGroups",""],["ads.getTargetPixels",""],["ads.getTargetingStats",""],["ads.getUploadURL",""],["ads.getVideoUploadURL",""],["ads.importTargetContacts",""],["ads.removeOfficeUsers",""],["ads.removeTargetContacts",""],["ads.saveLookalikeRequestResult",""],["ads.shareTargetGroup",""],["ads.updateAds",""],["ads.updateCampaigns",""],["ads.updateClients",""],["ads.updateOfficeUsers",""],["ads.updateTargetGroup",""],["ads.updateTargetPixel",""]],"name":"Ads"},"appWidgets":{"list":[["appWidgets.getAppImageUploadServer",""],["appWidgets.getAppImages",""],["appWidgets.getGroupImageUploadServer",""],["appWidgets.getGroupImages",""],["appWidgets.getImagesById",""],["appWidgets.saveAppImage",""],["appWidgets.saveGroupImage",""],["appWidgets.update",""]],"name":"appWidgets"},"apps":{"list":[["apps.deleteAppRequests",""],["apps.get",""],["apps.getCatalog",""],["apps.getFriendsList",""],["apps.getLeaderboard",""],["apps.getScopes",""],["apps.getScore",""],["apps.promoHasActiveGift",""],["apps.promoUseGift",""],["apps.sendRequest",""]],"name":"Apps"},"audio":{"name":"Audio","class_name":"nodoc"},"auth":{"list":[["auth.checkPhone",""],["auth.restore",""]],"name":"Auth"},"board":{"list":[["board.addTopic",""],["board.closeTopic",""],["board.createComment",""],["board.deleteComment",""],["board.deleteTopic",""],["board.editComment",""],["board.editTopic",""],["board.fixTopic",""],["board.getComments",""],["board.getTopics",""],["board.openTopic",""],["board.restoreComment",""],["board.unfixTopic",""]],"name":"Board"},"database":{"list":[["database.getChairs",""],["database.getCities",""],["database.getCitiesById",""],["database.getCountries",""],["database.getCountriesById",""],["database.getFaculties",""],["database.getMetroStations",""],["database.getMetroStationsById",""],["database.getRegions",""],["database.getSchoolClasses",""],["database.getSchools",""],["database.getUniversities",""]],"name":"Database"},"docs":{"list":[["docs.add",""],["docs.delete",""],["docs.edit",""],["docs.get",""],["docs.getById",""],["docs.getMessagesUploadServer",""],["docs.getTypes",""],["docs.getUploadServer",""],["docs.getWallUploadServer",""],["docs.save",""],["docs.search",""]],"name":"Docs"},"downloadedGames":{"list":[["downloadedGames.getPaidStatus",""]],"name":"downloadedGames"},"execute":{"list":[["execute",""]],"name":"Execute"},"fave":{"list":[["fave.addArticle",""],["fave.addLink",""],["fave.addPage",""],["fave.addPost",""],["fave.addProduct",""],["fave.addTag",""],["fave.addVideo",""],["fave.editTag",""],["fave.get",""],["fave.getPages",""],["fave.getTags",""],["fave.markSeen",""],["fave.removeArticle",""],["fave.removeLink",""],["fave.removePage",""],["fave.removePost",""],["fave.removeProduct",""],["fave.removeTag",""],["fave.removeVideo",""],["fave.reorderTags",""],["fave.setPageTags",""],["fave.setTags",""],["fave.trackPageInteraction",""]],"name":"Fave"},"friends":{"list":[["friends.add",""],["friends.addList",""],["friends.areFriends",""],["friends.delete",""],["friends.deleteAllRequests",""],["friends.deleteList",""],["friends.edit",""],["friends.editList",""],["friends.get",""],["friends.getAppUsers",""],["friends.getByPhones",""],["friends.getLists",""],["friends.getMutual",""],["friends.getOnline",""],["friends.getRecent",""],["friends.getRequests",""],["friends.getSuggestions",""],["friends.search",""]],"name":"Friends"},"gifts":{"list":[["gifts.get",""]],"name":"Gifts"},"groups":{"list":[["groups.addAddress",""],["groups.addCallbackServer",""],["groups.addLink",""],["groups.approveRequest",""],["groups.ban",""],["groups.create",""],["groups.deleteAddress",""],["groups.deleteCallbackServer",""],["groups.deleteLink",""],["groups.disableOnline",""],["groups.edit",""],["groups.editAddress",""],["groups.editCallbackServer",""],["groups.editLink",""],["groups.editManager",""],["groups.enableOnline",""],["groups.get",""],["groups.getAddresses",""],["groups.getBanned",""],["groups.getById",""],["groups.getCallbackConfirmationCode",""],["groups.getCallbackServers",""],["groups.getCallbackSettings",""],["groups.getCatalog",""],["groups.getCatalogInfo",""],["groups.getInvitedUsers",""],["groups.getInvites",""],["groups.getLongPollServer",""],["groups.getLongPollSettings",""],["groups.getMembers",""],["groups.getOnlineStatus",""],["groups.getRequests",""],["groups.getSettings",""],["groups.getTagList",""],["groups.getTokenPermissions",""],["groups.invite",""],["groups.isMember",""],["groups.join",""],["groups.leave",""],["groups.removeUser",""],["groups.reorderLink",""],["groups.search",""],["groups.setCallbackSettings",""],["groups.setLongPollSettings",""],["groups.setSettings",""],["groups.setUserNote",""],["groups.tagAdd",""],["groups.tagBind",""],["groups.tagDelete",""],["groups.tagUpdate",""],["groups.toggleMarket",""],["groups.unban",""]],"name":"Groups"},"leadForms":{"list":[["leadForms.create",""],["leadForms.delete",""],["leadForms.get",""],["leadForms.getLeads",""],["leadForms.getUploadURL",""],["leadForms.list",""],["leadForms.update",""]],"name":"leadForms"},"likes":{"list":[["likes.add",""],["likes.delete",""],["likes.getList",""],["likes.isLiked",""]],"name":"Likes"},"market":{"list":[["market.add",""],["market.addAlbum",""],["market.addToAlbum",""],["market.createComment",""],["market.delete",""],["market.deleteAlbum",""],["market.deleteComment",""],["market.edit",""],["market.editAlbum",""],["market.editComment",""],["market.editOrder",""],["market.get",""],["market.getAlbumById",""],["market.getAlbums",""],["market.getById",""],["market.getCategories",""],["market.getComments",""],["market.getGroupOrders",""],["market.getOrderById",""],["market.getOrderItems",""],["market.getOrders",""],["market.removeFromAlbum",""],["market.reorderAlbums",""],["market.reorderItems",""],["market.report",""],["market.reportComment",""],["market.restore",""],["market.restoreComment",""],["market.search",""]],"name":"Market"},"messages":{"list":[["messages.addChatUser",""],["messages.allowMessagesFromGroup",""],["messages.createChat",""],["messages.delete",""],["messages.deleteChatPhoto",""],["messages.deleteConversation",""],["messages.denyMessagesFromGroup",""],["messages.edit",""],["messages.editChat",""],["messages.getByConversationMessageId",""],["messages.getById",""],["messages.getChat",""],["messages.getChatPreview",""],["messages.getConversationMembers",""],["messages.getConversations",""],["messages.getConversationsById",""],["messages.getHistory",""],["messages.getHistoryAttachments",""],["messages.getImportantMessages",""],["messages.getInviteLink",""],["messages.getLastActivity",""],["messages.getLongPollHistory",""],["messages.getLongPollServer",""],["messages.isMessagesFromGroupAllowed",""],["messages.joinChatByInviteLink",""],["messages.markAsAnsweredConversation",""],["messages.markAsImportant",""],["messages.markAsImportantConversation",""],["messages.markAsRead",""],["messages.pin",""],["messages.removeChatUser",""],["messages.restore",""],["messages.search",""],["messages.searchConversations",""],["messages.send",""],["messages.sendMessageEventAnswer",""],["messages.setActivity",""],["messages.setChatPhoto",""],["messages.unpin",""]],"name":"Messages"},"newsfeed":{"list":[["newsfeed.addBan",""],["newsfeed.deleteBan",""],["newsfeed.deleteList",""],["newsfeed.get",""],["newsfeed.getBanned",""],["newsfeed.getComments",""],["newsfeed.getLists",""],["newsfeed.getMentions",""],["newsfeed.getRecommended",""],["newsfeed.getSuggestedSources",""],["newsfeed.ignoreItem",""],["newsfeed.saveList",""],["newsfeed.search",""],["newsfeed.unignoreItem",""],["newsfeed.unsubscribe",""]],"name":"Newsfeed"},"notes":{"list":[["notes.add",""],["notes.createComment",""],["notes.delete",""],["notes.deleteComment",""],["notes.edit",""],["notes.editComment",""],["notes.get",""],["notes.getById",""],["notes.getComments",""],["notes.restoreComment",""]],"name":"Notes"},"notifications":{"list":[["notifications.get",""],["notifications.markAsViewed",""],["notifications.sendMessage",""]],"name":"Notifications"},"orders":{"list":[["orders.cancelSubscription",""],["orders.changeState",""],["orders.get",""],["orders.getAmount",""],["orders.getById",""],["orders.getUserSubscriptionById",""],["orders.getUserSubscriptions",""],["orders.updateSubscription",""]],"name":"Orders"},"pages":{"list":[["pages.clearCache",""],["pages.get",""],["pages.getHistory",""],["pages.getTitles",""],["pages.getVersion",""],["pages.parseWiki",""],["pages.save",""],["pages.saveAccess",""]],"name":"Pages"},"photos":{"list":[["photos.confirmTag",""],["photos.copy",""],["photos.createAlbum",""],["photos.createComment",""],["photos.delete",""],["photos.deleteAlbum",""],["photos.deleteComment",""],["photos.edit",""],["photos.editAlbum",""],["photos.editComment",""],["photos.get",""],["photos.getAlbums",""],["photos.getAlbumsCount",""],["photos.getAll",""],["photos.getAllComments",""],["photos.getById",""],["photos.getChatUploadServer",""],["photos.getComments",""],["photos.getMarketAlbumUploadServer",""],["photos.getMarketUploadServer",""],["photos.getMessagesUploadServer",""],["photos.getNewTags",""],["photos.getOwnerCoverPhotoUploadServer",""],["photos.getOwnerPhotoUploadServer",""],["photos.getTags",""],["photos.getUploadServer",""],["photos.getUserPhotos",""],["photos.getWallUploadServer",""],["photos.makeCover",""],["photos.move",""],["photos.putTag",""],["photos.removeTag",""],["photos.reorderAlbums",""],["photos.reorderPhotos",""],["photos.report",""],["photos.reportComment",""],["photos.restore",""],["photos.restoreComment",""],["photos.save",""],["photos.saveMarketAlbumPhoto",""],["photos.saveMarketPhoto",""],["photos.saveMessagesPhoto",""],["photos.saveOwnerCoverPhoto",""],["photos.saveOwnerPhoto",""],["photos.saveWallPhoto",""],["photos.search",""]],"name":"Photos"},"polls":{"list":[["polls.addVote",""],["polls.create",""],["polls.deleteVote",""],["polls.edit",""],["polls.getBackgrounds",""],["polls.getById",""],["polls.getPhotoUploadServer",""],["polls.getVoters",""],["polls.savePhoto",""]],"name":"Polls"},"prettyCards":{"list":[["prettyCards.create",""],["prettyCards.delete",""],["prettyCards.edit",""],["prettyCards.get",""],["prettyCards.getById",""],["prettyCards.getUploadURL",""]],"name":"prettyCards"},"search":{"list":[["search.getHints",""]],"name":"Search"},"secure":{"list":[["secure.addAppEvent",""],["secure.checkToken",""],["secure.getAppBalance",""],["secure.getSMSHistory",""],["secure.getTransactionsHistory",""],["secure.getUserLevel",""],["secure.giveEventSticker",""],["secure.sendNotification",""],["secure.sendSMSNotification",""],["secure.setCounter",""]],"name":"Secure"},"stats":{"list":[["stats.get",""],["stats.getPostReach",""],["stats.trackVisitor",""]],"name":"Stats"},"status":{"list":[["status.get",""],["status.set",""]],"name":"Status"},"storage":{"list":[["storage.get",""],["storage.getKeys",""],["storage.set",""]],"name":"Storage"},"stories":{"list":[["stories.banOwner",""],["stories.delete",""],["stories.get",""],["stories.getBanned",""],["stories.getById",""],["stories.getPhotoUploadServer",""],["stories.getReplies",""],["stories.getStats",""],["stories.getVideoUploadServer",""],["stories.getViewers",""],["stories.hideAllReplies",""],["stories.hideReply",""],["stories.save",""],["stories.search",""],["stories.sendInteraction",""],["stories.unbanOwner",""]],"name":"stories"},"streaming":{"list":[["streaming.getServerUrl",""],["streaming.getSettings",""],["streaming.getStats",""],["streaming.getStem",""],["streaming.setSettings",""]],"name":"streaming"},"users":{"list":[["users.get",""],["users.getFollowers",""],["users.getSubscriptions",""],["users.report",""],["users.search",""]],"name":"Users"},"utils":{"list":[["utils.checkLink",""],["utils.deleteFromLastShortened",""],["utils.getLastShortenedLinks",""],["utils.getLinkStats",""],["utils.getServerTime",""],["utils.getShortLink",""],["utils.resolveScreenName",""]],"name":"Utils"},"video":{"list":[["video.add",""],["video.addAlbum",""],["video.addToAlbum",""],["video.createComment",""],["video.delete",""],["video.deleteAlbum",""],["video.deleteComment",""],["video.edit",""],["video.editAlbum",""],["video.editComment",""],["video.get",""],["video.getAlbumById",""],["video.getAlbums",""],["video.getAlbumsByVideo",""],["video.getComments",""],["video.removeFromAlbum",""],["video.reorderAlbums",""],["video.reorderVideos",""],["video.report",""],["video.reportComment",""],["video.restore",""],["video.restoreComment",""],["video.save",""],["video.search",""]],"name":"Video"},"wall":{"list":[["wall.checkCopyrightLink",""],["wall.closeComments",""],["wall.createComment",""],["wall.delete",""],["wall.deleteComment",""],["wall.edit",""],["wall.editAdsStealth",""],["wall.editComment",""],["wall.get",""],["wall.getById",""],["wall.getComment",""],["wall.getComments",""],["wall.getReposts",""],["wall.openComments",""],["wall.pin",""],["wall.post",""],["wall.postAdsStealth",""],["wall.reportComment",""],["wall.reportPost",""],["wall.repost",""],["wall.restore",""],["wall.restoreComment",""],["wall.search",""],["wall.unpin",""]],"name":"Wall"},"widgets":{"list":[["widgets.getComments",""],["widgets.getPages",""]],"name":"Widgets"}};
+cur.sect = 'users';
+var methodNum = 1;
+for (var i in cur.sections) {
+  var row = cur.sections[i];
+  sections.push({i: i, l: row.name, c: row.class_name});
+}
+cur.initEdit = function(cont, plain) {
+  cont = 'dev_edit_'+cont;
+  var objCont = ge(cont);
+  if (!objCont) {
+    return;
+  }
+  var editor = new WkEditor(objCont, {
+    buttons: {
+      bold: [0, 0, 'Жирный'],
+      italic: [0, -20, 'Курсивный'],
+      left: [0, -80, 'Выровнять по левому краю'],
+      center: [0, -100, 'Выровнять по центру'],
+      right: [0, -120, 'Выровнять по правому краю'],
+      list: [0, -140, 'Маркированный список', 'Элемент списка'],
+      h1: [0, -180, 'Добавить заголовок', 'Введите текст заголовка'],
+      h2: [0, -200, 'Добавить подзаголовок', 'Введите текст заголовка'],
+      h3: [0, -220, 'Добавить подзаголовок второго уровня', 'Введите текст заголовка'],
+      blockquote: [0, -360, 'Добавить цитату', 'Текст цитаты'],
+      url: [0, -300, 'Добавить ссылку', 'Удалить ссылку'],
+      image: [0, -240, 'Добавить фотографию'],
+      video: [0, -260, 'Добавить видеозапись'],
+      audio: [0, -280, 'Добавить аудиозапись']
+    },
+    plain: plain,
+    wikiPref: '',
+    source: ge(cont+'_textarea'),
+    panelCont: ge(cont+'_buttons_cont'),
+    help: ['Помощь по разметке'],
+    mode: [0, -340, 'Режим вики-разметки', 'Визуальный режим редактирования'],
+    lang: {
+      too_long: 'Страница слишком длинная. Пожалуйста, сократите её.'
+    },
+    onPlainToggle: function(on, btn) {
+      if (btn) {
+        ajax.post('al_pages.php', {act: 'toggle_plain', state: on ? 1 : 0}, {})
+      }
+      if (on) {
+        show('wk_wiki_help');
+      } else {
+        hide('wk_wiki_help');
+      }
+    }
+  });
+  cur.editors.push(editor);
+}
+
+if (ge('dev_section_menu')) {
+  cur.methodsDD = new DropdownMenu(sections, {
+    target: ge('dev_section_menu'),
+    width: 190,
+    showHover: false,
+    offsetTop: -3,
+    containerClass: 'dev_section_dd',
+    updateTarget: false,
+    align: 'right',
+    onSelect: function(obj) {
+      var sect = cur.methodsDD.val();
+      Dev.switchSection(sect, true);
+    },
+    onShow: function() {
+      var rows = cur.methodsDD.rows;
+      if (rows) {
+        var rowsWrap = domPN(rows), rowsH = getSize(rows)[1],
+            rowsWrapH = Math.min(rowsH, Math.max(200, window.lastWindowHeight + scrollGetY() - getXY(rows)[1] - 2));
+        setStyle(rowsWrap, {height: rowsWrapH, overflowY: (rowsWrapH < rowsH ? 'scroll' : 'auto')});
+        rows.scrollTop = 0;
+      }
+      if (!isVisible('box_layer_wrap')) {
+        addClass(bodyNode, 'hat_on_top');
+      }
+    },
+    onHide: function() {
+      removeClass(bodyNode, 'hat_on_top');
+    }
+  });
+}  ;(function () {
+    var cb = function () {Notifier.init({"queue_id":"events_queue519561453","timestamp":1095719316,"key":"Nr6es4yGjtE3p4j2tifaRieCAbFn_ELVUJKoo_K6feEBcU3mM5yYcnpEzlPJ0kTF","uid":519561453,"version":10,"debug":false,"instance_id":"NjQ2NjIw","server_url":"https:\/\/queuev4.vk.com\/im453","frame_path":"https:\/\/queuev4.vk.com\/q_frame.php?7","frame_url":"im453","refresh_url":"https:\/\/vk.com\/notifier.php","notifierHash":"41eae699d1fee51cea","callsUseDirectAudio":true,"callsCredentials":{"is_dev":false,"key":"CFJCCIJGDIHBABABA","token":"oNtjh3PZo4wRU+kOu7ik6MxsUOkEtzNFja6e0emUKAE=","me":{"peerId":519561453,"link":"\/id519561453","name":"Andrey Maslennikov","firstName":"Andrey","lastName":"Maslennikov","shortName":"Andrey M.","sex":"2","photo":"","photo_100":"","canAddMembers":true}},"imHash":"1601753664_22e9ac48e513d3d12f","participantLimit":128,"mutedPeers":[],"fc":{"version":23,"state":null,"state_hash":"1601753664_e3a33ab2a24715115f"}})}
+    if (window.vk && window.vk.loaded) cb(); else addEvent(window, 'DOMContentLoaded load', cb);
+  })();
+  if (!window.__dev) {
+    (new Image).src="https://r3.mail.ru/k?sign=24673680e0da4734656c757144e2f1ba98d06c83&vk_id=519561453&src=desktop";
+  }
+;(function (d, w) {
+if (w.__dev) {
+  return
+}
+var ts = d.createElement("script"); ts.type = "text/javascript"; ts.async = true;
+ts.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//top-fwz1.mail.ru/js/code.js";
+var f = function () {var s = d.getElementsByTagName("script")[0]; s.parentNode.insertBefore(ts, s);};
+if (w.opera == "[object Opera]") { d.addEventListener("DOMContentLoaded", f, false); } else { f(); }
+})(document, window);;(function (d, w) {
+if (w.__dev) {
+  return;
+}
+if(!w._tns){w._tns = {}};
+w._tns.tnsPixelSocdem = "41"
+w._tns.tnsPixelType = ""
+})(document, window);
+      window.curReady && window.curReady();
+    }
+  </script>
+
+
+<section id="calls"></section></body></html>
